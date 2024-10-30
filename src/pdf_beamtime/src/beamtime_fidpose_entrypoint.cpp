@@ -37,6 +37,20 @@ int main(int argc, char * argv[])
     {"robot_description", parameters[1].value_to_string()}
   });
 
+  // Lower the update rate to the controller
+  auto controller_manager_parameters_client =
+    std::make_shared<rclcpp::SyncParametersClient>(parameter_client_node, "controller_manager");
+  // Boiler plate wait block
+  while (!controller_manager_parameters_client->wait_for_service(1s)) {
+    if (!rclcpp::ok()) {
+      RCLCPP_ERROR(
+        logger, "Interrupted while waiting for the service. Exiting.");
+      return 0;
+    }
+    RCLCPP_INFO(logger, "controller_manager service not available, waiting again...");
+  }
+  controller_manager_parameters_client->set_parameters({rclcpp::Parameter("update_rate", 100)});
+
   rclcpp::executors::MultiThreadedExecutor executor;
 
   auto beamtime_server = std::make_shared<PdfBeamtimeFidPoseServer>(
