@@ -134,6 +134,8 @@ void PdfBeamtimeFidPoseServer::execute(
         return;
       }
     }
+    rclcpp::sleep_for(2s);
+
   }
 }
 

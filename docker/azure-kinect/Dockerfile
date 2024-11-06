@@ -58,6 +58,8 @@ RUN mv /root/temp_code/erobs/src/kinect_recorder /root/ws/src/
 WORKDIR /root/ws/src
 RUN git clone https://github.com/microsoft/Azure_Kinect_ROS_Driver.git -b humble
 
+COPY custom_launch.launch.py /root/ws/src/Azure_Kinect_ROS_Driver/launch/custom_launch.launch.py
+
 WORKDIR /root/ws/
 RUN /bin/bash -c ". /opt/ros/humble/setup.bash && colcon build"
 

@@ -48,11 +48,15 @@ ament_target_dependencies( pose_subscriber ${dependencies})
 add_executable(parameter_demo src/parameter_demo.cpp)
 ament_target_dependencies(parameter_demo ${dependencies})
 
+add_executable(vanila_tests src/vanila_tests.cpp)
+ament_target_dependencies(vanila_tests ${dependencies})
+
 install(TARGETS
   hello_moveit
   parameter_demo
   pose_subscriber
   pick_place_repeat_action_server
+  vanila_tests
   ARCHIVE DESTINATION lib
   LIBRARY DESTINATION lib
   RUNTIME DESTINATION lib/${PROJECT_NAME}
