@@ -59,7 +59,7 @@ PdfBeamtimeServer::PdfBeamtimeServer(
     std::bind(
       &PdfBeamtimeServer::bluesky_interrupt_cb, this, _1, _2));
 
-  //define constraints to restrict wrist movement
+  // define constraints to restrict wrist movement
   moveit_msgs::msg::JointConstraint jc;
   jc.joint_name = node_->get_parameter("joint_constraints.joint_name").as_string();
   jc.position = node_->get_parameter("joint_constraints.joint_position").as_double();
@@ -70,7 +70,6 @@ PdfBeamtimeServer::PdfBeamtimeServer(
   moveit_msgs::msg::Constraints constraints_;
   constraints_.joint_constraints.push_back(jc);
   move_group_interface_.setPathConstraints(constraints_);
-
 }
 
 void PdfBeamtimeServer::bluesky_interrupt_cb(
