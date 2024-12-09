@@ -10,13 +10,14 @@
 	"runArgs": [
 		// THIS NETWORK NEEDS TO EXIST. CREATE IT WITH: docker network create --subnet=192.168.56.0/24 ursim_net 
 		// This corresponds to the docker compose used in launching other services.
-		"--network=docker_ursim_net",
+		"--network=host",
 		"--cap-add=SYS_PTRACE",
 		"--security-opt=seccomp:unconfined",
 		"--security-opt=apparmor:unconfined",
 		"--volume=/tmp/.X11-unix:/tmp/.X11-unix",
 		// "--volume=/mnt/wslg:/mnt/wslg",
-		"--ipc=host"
+		"--ipc=host",
+		"--pid=host"
 	],
 	"containerEnv": {
 		"DISPLAY": "${localEnv:DISPLAY}", // Needed for GUI try ":0" for windows

@@ -10,7 +10,7 @@ Several containers need to be running for our application. Once running, clients
 **TODO (ChandimaFernando)**: Change the repo link to nsls-II repo, and add CI/CD for build on version tag.
 
 ```bash
-export ROBOT_IP=192.168.0.100
+export ROBOT_IP=192.168.1.100
 export UR_TYPE="ur3e"
 export LAUNCH_RVIZ="false"
 export DESCRIPTION_PKG="ur3e_hande_robot_description"
@@ -18,6 +18,7 @@ export DESCRIPTION_FILE="ur_with_camera_hande.xacro"
 export CONFIG_PKG="ur3e_hande_moveit_config"
 export CONFIG_FILE="ur.srdf"
 export ROS_DISTRO=humble
+export ROS_DOMAIN_ID=10
 export GHCR_POINTER=ghcr.io/chandimafernando/erobs-common-img:latest
 ```
 
@@ -29,6 +30,7 @@ podman run -it --rm --network host --ipc=host --pid=host \
     --env ROS_DISTRO=$ROS_DISTRO \
     --env DESCRIPTION_PKG=$DESCRIPTION_PKG \
     --env DESCRIPTION_FILE=$DESCRIPTION_FILE \
+    --env ROS_DOMAIN_ID=$ROS_DOMAIN_ID \
     ${GHCR_POINTER} \
     /bin/sh -c "printenv && . /opt/ros/${ROS_DISTRO}/setup.sh && . /root/ws/install/setup.sh && ros2 launch ur_robot_driver ur_control.launch.py ur_type:=${UR_TYPE} robot_ip:=${ROBOT_IP} description_package:=${DESCRIPTION_PKG} description_file:=${DESCRIPTION_FILE} launch_rviz:=${LAUNCH_RVIZ} tool_voltage:=24"
 ```
@@ -38,6 +40,7 @@ podman run -it --rm --network host --ipc=host --pid=host \
 podman run -it --rm --network host --ipc=host --pid=host \
     --env ROBOT_IP=$ROBOT_IP \
     --env ROS_DISTRO=$ROS_DISTRO  \
+    --env ROS_DOMAIN_ID=$ROS_DOMAIN_ID \
     ${GHCR_POINTER} \
     /bin/bash -c ". /root/ws/install/setup.sh && \
     . /opt/ros/${ROS_DISTRO}/setup.sh && \
@@ -56,6 +59,7 @@ The gripper_service has two convenience scripts, `gripper_open.cpp` and `gripper
 ```bash
 podman run -it --network host --ipc=host --pid=host \
     --env ROS_DISTRO=$ROS_DISTRO \
+    --env ROS_DOMAIN_ID=$ROS_DOMAIN_ID \
     ${GHCR_POINTER} \
     /bin/sh -c "printenv && \
     . /root/ws/install/setup.sh && \
@@ -73,6 +77,7 @@ podman run -it --rm --network host --ipc=host --pid=host \
     --env DESCRIPTION_FILE=$DESCRIPTION_FILE \
     --env CONFIG_PKG=$CONFIG_PKG \
     --env CONFIG_FILE=$CONFIG_FILE \
+    --env ROS_DOMAIN_ID=$ROS_DOMAIN_ID \
     ${GHCR_POINTER} \
     /bin/sh -c "printenv && . /opt/ros/${ROS_DISTRO}/setup.sh && . /root/ws/install/setup.sh && ros2 launch ur_moveit_config ur_moveit.launch.py ur_type:=${UR_TYPE} launch_rviz:=${LAUNCH_RVIZ} description_package:=${DESCRIPTION_PKG}  launch_servo:=false description_file:=${DESCRIPTION_FILE} moveit_config_package:=${CONFIG_PKG} moveit_config_file:=${CONFIG_FILE}"
 ```
@@ -81,6 +86,7 @@ podman run -it --rm --network host --ipc=host --pid=host \
 ```bash
 podman run -it --network host --ipc=host --pid=host \
     --env ROS_DISTRO=$ROS_DISTRO \
+    --env ROS_DOMAIN_ID=$ROS_DOMAIN_ID \
     ${GHCR_POINTER} \
     /bin/sh -c "printenv && . /opt/ros/${ROS_DISTRO}/setup.sh && . /root/ws/install/setup.sh && ros2 launch pdf_beamtime pdf_beamtime.launch.py"
 ```
@@ -89,6 +95,7 @@ podman run -it --network host --ipc=host --pid=host \
 ```bash
 podman run -it --network host --ipc=host --pid=host \
     --env ROS_DISTRO=$ROS_DISTRO \
+    --env ROS_DOMAIN_ID=$ROS_DOMAIN_ID \
     ${GHCR_POINTER} \
     /bin/sh -c "printenv && . /opt/ros/${ROS_DISTRO}/setup.sh && . /root/ws/install/setup.sh && ros2 launch pdf_beamtime pdf_beamtime_fidpose_server.launch.py"
 ```
@@ -97,6 +104,7 @@ podman run -it --network host --ipc=host --pid=host \
 ```bash
 podman run -it --network host --ipc=host --pid=host \
     --env ROS_DISTRO=$ROS_DISTRO \
+    --env ROS_DOMAIN_ID=$ROS_DOMAIN_ID \
     ${GHCR_POINTER} \
     /bin/sh -c "printenv && . /opt/ros/${ROS_DISTRO}/setup.sh && . /root/ws/install/setup.sh && ros2 action send_goal pdf_beamtime_action_server pdf_beamtime_interfaces/action/PickPlaceControlMsg '{pickup_approach: [1.571, -1.571, 0.0, -1.571, 0.0, 0.0]}'"
 ```
@@ -105,6 +113,7 @@ podman run -it --network host --ipc=host --pid=host \
 ```bash
 podman run -it --network host --ipc=host --pid=host \
     --env ROS_DISTRO=$ROS_DISTRO \
+    --env ROS_DOMAIN_ID=$ROS_DOMAIN_ID \
     ${GHCR_POINTER} \
     /bin/sh -c "printenv && . /opt/ros/${ROS_DISTRO}/setup.sh && . /root/ws/install/setup.sh && ros2 action send_goal pdf_beamtime_action_server pdf_beamtime_interfaces/action/PickPlaceControlMsg {pickup_approach: [1.571, -1.571, 0.0, -1.571, 0.0, 0.0,]} --cancel"
 ```
