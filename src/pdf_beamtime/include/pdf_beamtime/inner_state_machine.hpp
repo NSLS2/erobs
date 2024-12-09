@@ -12,7 +12,6 @@ BSD 3 Clause License. See LICENSE.txt for details.*/
 #include <rclcpp/node.hpp>
 #include <pdf_beamtime/state_enum.hpp>
 #include <pdf_beamtime_interfaces/srv/gripper_control_msg.hpp>
-#include <moveit/robot_trajectory/robot_trajectory.h>
 
 class InnerStateMachine
 {

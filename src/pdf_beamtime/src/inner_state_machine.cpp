@@ -25,42 +25,6 @@ moveit::core::MoveItErrorCode InnerStateMachine::move_robot(
   switch (internal_state_enum_) {
     case Internal_State::RESTING:
     case Internal_State::CLEANUP: {
-
-        for (size_t i = 0; i < joint_goal_.size(); ++i) {
-          std::cout << "Joint goal# Joint: " << i << ", Value: " <<
-            joint_goal_[i] << std::endl;
-        }
-
-        // Get the current robot state
-        auto current_state = mgi.getCurrentState(10); // Timeout in seconds
-        if (!current_state) {
-          RCLCPP_ERROR(rclcpp::get_logger("example"), "Failed to get current state");
-          return;
-        }
-
-        // // Access the joint model group
-        // const robot_state::JointModelGroup * joint_model_group =
-        //   mgi.getRobotModel()->getJointModelGroup(mgi.getName());
-
-// Modify the start state
-        auto joint_positions = current_state->getVariablePositions();
-        double wrist_3_position = joint_positions[5];
-        std::cout << "Current wrist 3 from mgi current state: " << wrist_3_position << std::endl;
-
-// // Normalize wrist_3_joint to your desired convention
-//         if (wrist_3_position < 0) {
-//           wrist_3_position = -M_PI; // Force -pi
-//         } else {
-//           wrist_3_position = M_PI; // Force pi
-//         }
-//         joint_positions[5] = wrist_3_position;
-//         current_state->setVariablePositions(joint_positions);
-
-// // Set the modified start state
-//         move_group_interface.setStartState(*current_state);
-
-
-        mgi.setStartStateToCurrentState();
         mgi.setJointValueTarget(joint_goal_);
         // Create a plan to that target pose
         auto const [planing_success, plan] = [&mgi] {
@@ -68,25 +32,6 @@ moveit::core::MoveItErrorCode InnerStateMachine::move_robot(
             auto const ok = static_cast<bool>(mgi.plan(plan));
             return std::make_pair(ok, plan);
           }();
-
-        const auto & trajectory = plan.trajectory_.joint_trajectory;
-        const auto & last_point = trajectory.points.back();
-        const auto & all_points = trajectory.points;
-        // Get the joint names
-        const auto & joint_names = trajectory.joint_names;
-        // Get the joint values at the last point
-        const auto & joint_values = last_point.positions;
-        // // Print joint values
-        // for (size_t i = 0; i < joint_names.size(); ++i) {
-        //   std::cout << "Joint Planning# Joint: " << joint_names[i] << ", Value: " <<
-        //     joint_values[i] << std::endl;
-        // }
-
-        for (size_t i = 0; i < all_points.size(); ++i) {
-          std::cout << "Joint Planning# Joint: " << joint_names[5] << ", Value: " <<
-            all_points[i].positions[5] << std::endl;
-        }
-
         if (planing_success) {
           // Change inner state to Moving if the robot is ready to move and not on clean up
           if (internal_state_enum_ == Internal_State::RESTING) {
@@ -131,18 +76,6 @@ moveit::core::MoveItErrorCode InnerStateMachine::move_robot_cartesian(
               plan.trajectory_);
             return std::make_pair(path_achieved_fraction, plan);
           }();
-        const auto & trajectory = plan.trajectory_.joint_trajectory;
-        const auto & last_point = trajectory.points.back();
-        // Get the joint names
-        const auto & joint_names = trajectory.joint_names;
-        // Get the joint values at the last point
-        const auto & joint_values = last_point.positions;
-        // Print joint values
-        for (size_t i = 0; i < joint_names.size(); ++i) {
-          std::cout << "Cart Planning# Joint: " << joint_names[i] << ", Value: " <<
-            joint_values[i] << std::endl;
-        }
-
         if (1.0 - planing_success < 0.000001) {
           // Change inner state to Moving if the robot is ready to move and not on clean up
           if (internal_state_enum_ == Internal_State::RESTING) {
