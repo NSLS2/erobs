@@ -28,7 +28,7 @@ class SimpleClient(Node):
         goal_msg.inbeam = [x / 180 * math.pi for x in [63.84, -47.71, 98.22, -50.59, 61.00, 180.0]]
 
         goal_msg.sample_return = False
-        goal_msg.sample_id = 0
+        goal_msg.sample_id = 150
 
         self._action_client.wait_for_server()
         self._send_goal_future = self._action_client.send_goal_async(goal_msg, feedback_callback=self.feedback_callback)
@@ -42,7 +42,7 @@ class SimpleClient(Node):
         goal_msg.inbeam = [x / 180 * math.pi for x in [63.84, -47.71, 98.22, -50.59, 61.00, 180.0]]
 
         goal_msg.sample_return = True
-        goal_msg.sample_id = 0
+        goal_msg.sample_id = 150
 
         self._action_client.wait_for_server()
         self._send_goal_future = self._action_client.send_goal_async(goal_msg, feedback_callback=self.feedback_callback)
@@ -65,8 +65,8 @@ def main(args=None):
     rclpy.init(args=args)
 
     client = SimpleClient()
-    client.send_pickup_goal()
-    # client.send_return_sample_goal()
+    # client.send_pickup_goal()
+    client.send_return_sample_goal()
 
     rclpy.spin(client)
 
