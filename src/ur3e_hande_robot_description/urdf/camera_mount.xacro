@@ -94,7 +94,7 @@
   <joint name="camera_base_to_mount" type="fixed">
     <parent link="mount" />
     <child link="camera_base" />
-    <origin xyz="0. -0.09 0.0725" rpy="${pi/2} 0. 0." />
+    <origin xyz="0. -0.11 0.0725" rpy="${pi/2} 0. 0." />
   </joint> 
 
   <joint name="camera_base_to_camera_base_map" type="fixed">
