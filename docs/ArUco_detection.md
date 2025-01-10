@@ -15,3 +15,12 @@ Custom action-server message `FidPoseControlMsg.action` has an extra field to in
 On returning the sample holder, the user has the option to return to a different storage given that the sample holder has previously being pickup up. This ensures that the message type is consistent in both the pickup and return, and all arguments of the message are interpreted. Below is the second part of the above video where the sample holder being return to a different location:
 
 <img src="./images/return_to_another_pickup.gif" alt="Multi-aruco detection" width="300">
+
+
+# ROS nodes structure and connectivies. 
+
+Below diagram is drawn from `rqt_graph`:
+
+<img src="./images/rosgraph_all_nodes.png" alt="Multi-aruco detection" width="1000">
+
+
