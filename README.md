@@ -9,16 +9,24 @@ Each manifest in the [docker](./docker) directory is a container image that can 
 
 ### Source Contents
 
-- [pdf_beamtime](./src/pdf_beamtime): ROS2 package for controlling the UR3e robot arm and HandE gripper at the PDF beamline.
-- [pdf_beamtime_interfaces](./src/pdf_beamtime_interfaces): ROS2 package for defining the interfaces used in the pdf_beamtime package.
-- [hello_moveit](./src/hello_moveit): ROS2 package for demonstrating simple actions using the MoveIt library with the UR3e robot arm.
-- [hello_moveit_interfaces](./src/hello_moveit_interfaces): ROS2 package for defining the interfaces used in the hello_moveit package.
-- [bluesky_ros](./src/bluesky_ros): Python module for integrating Bluesky and ROS2.
-- [gripper_service](./src/gripper_service): ROS2 package for controlling the HandE gripper.
-- [ur3e_hande_robot_description](./src/ur3e_hande_robot_description): ROS2 package for defining the UR3e robot arm with the HandE gripper.
-- [ur3e_hande_moveit_config](./src/ur3e_hande_moveit_config): ROS2 package for configuring MoveIt for the UR3e robot arm with the HandE gripper.
-- [aruco_pose](./src/aruco_pose): ROS2 package for detecting ArUco markers and calculating their pose.
 - [ros2.repos](./src/ros2.repos): ROS2 workspace file for downloading the required external ROS2 dependencies.
+- [robotiq-hande](./src/robotiq-hande): Source directory for the HandE gripper.
+  - [gripper_service](./src/robotiq-hande/gripper_service): ROS2 package for controlling the HandE gripper.
+  - Other packages are pulled in through rosdep.
+- [custom-ur-descriptions](./src/custom-ur-descriptions): Source directory for custom UR robot arm descriptions (e.g., attaching grippers or other end effectors).
+  - [ur3e_hande_robot_description](./src/custom-ur-descriptions/ur3e_hande_robot_description): ROS2 package for defining the UR3e robot arm with the HandE gripper.
+  - [ur3e_hande_moveit_config](./src/custom-ur-descriptions/ur3e_hande_moveit_config): ROS2 package for configuring MoveIt for the UR3e robot arm with the HandE gripper.
+  - The UR robot arm description is pulled in through rosdep.
+- [bluesky_ros](./src/bluesky_ros): Python module for integrating Bluesky and ROS2.
+- [aruco_pose](./src/aruco_pose): ROS2 package for detecting ArUco markers and calculating their pose.
+- [pdf](./src/pdf): Source directory for PDF beamline specific applications.
+  - [pdf_beamtime](./src/pdf/pdf_beamtime): ROS2 package for controlling the UR3e robot arm and HandE gripper at the PDF beamline.
+  - [pdf_beamtime_interfaces](./src/pdf/pdf_beamtime_interfaces): ROS2 package for defining the interfaces used in the pdf_beamtime package.
+- [cms](./src/cms): Source directory for CMS beamline specific applications. (Currently placeholder)
+- [lix](./src/lix): Source directory for LIX beamline specific applications. (Currently placeholder)
+- [demos](./src/demos): Source directory for demonstration applications.
+  - [hello_moveit](./src/demos/hello_moveit): ROS2 package for demonstrating simple actions using the MoveIt library with the UR3e robot arm.
+  - [hello_moveit_interfaces](./src/demos/hello_moveit_interfaces): ROS2 package for defining the interfaces used in the hello_moveit package.
 
 
 ### Docker Contents
@@ -26,14 +34,16 @@ Each manifest in the [docker](./docker) directory is a container image that can 
 We use Podman throughout this work, but have named the container images with Docker in mind.
 
 - [erobs-common-img](./docker/erobs-common-img): Common container image for running the majority of applications herein, including: UR robot driver, gripper service, MoveIt service, and the pdf_beamtime_server (primary `Action` server).
-- [ursim](./docker/ursim): Container image for running a simulated UR3e robot arm with a teach pendant.
-- [ur-driver](./docker/ur-driver): Container image for running the UR3e robot arm ROS2 driver.
-- [ur-moveit](./docker/ur-moveit): Container image for running MoveIt with the UR3e robot arm.
-- [ur-example](./docker/ur-example): Container image for running a simple action with the UR3e robot arm.
-- [ur-hande-draft](./docker/ur-hande-draft): Deprecated container image for running the UR3e robot arm with the HandE gripper.
-- [erobs-hello-moveit](./docker/erobs-hello-moveit): Container image for running a simple action with the UR3e robot arm.
 - [bsui](./docker/bsui): Container image for running the Bluesky User Interface with mounts at NSLS-II.
 - [azure-kinect](./docker/azure-kinect): Container image for running the Azure Kinect ROS2 driver.
+- Other auxiliary container images that are not used in the main application, but are useful for development and testing:
+  - [ursim](./docker/ursim): Container image for running a simulated UR3e robot arm with a teach pendant.
+  - [ur-driver](./docker/ur-driver): Container image for running the UR3e robot arm ROS2 driver.
+  - [ur-moveit](./docker/ur-moveit): Container image for running MoveIt with the UR3e robot arm.
+  - [ur-example](./docker/ur-example): Container image for running a simple action with the UR3e robot arm.
+  - [ur-hande-draft](./docker/ur-hande-draft): Deprecated container image for running the UR3e robot arm with the HandE gripper.
+  - [erobs-hello-moveit](./docker/erobs-hello-moveit): Container image for running a simple action with the UR3e robot arm.
+
 
 ### Hello Moveit
 
