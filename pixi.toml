@@ -7,7 +7,7 @@ authors = [
   "Chandima Fernando <wfernando1@bnl.gov",
 ]
 channels = ["robostack-humble", "conda-forge"]
-platforms = ["linux-64", "osx-64", "osx-arm64"]
+platforms = ["linux-64"]
 license = "BSD-3-Clause"
 license-file = "LICENSE"
 readme = "README.md"
@@ -39,10 +39,7 @@ select = [
 ]
 ignore = [
   "B901", # Return in a generator is needed for plans
-  "D107", # We squash __init__ docstrings into the class docstring
-  "D100", # TODO: Remove once we add documentation
   "D104",
-  "D103", # TODO: Remove once we add documentation
 ]
 preview = true # so that preview mode PLC2701 is enabled
 
@@ -53,3 +50,7 @@ convention = "numpy"
 pre-commit = ">=4.2.0,<5"
 pre-commit-hooks = ">=4.2.0,<5"
 ruff = ">=0.11.8,<0.12"
+bluesky = "*"
+ophyd = "*"
+pyepics = "*"
+Ipython = "*"

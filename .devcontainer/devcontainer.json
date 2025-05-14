@@ -4,7 +4,8 @@
 	"build": {
 		"args": {
 			"WORKSPACE": "${containerWorkspaceFolder}"
-		}
+		},
+		"platform": "linux/amd64"
 	},
 	"remoteUser": "ros",
 	"runArgs": [
