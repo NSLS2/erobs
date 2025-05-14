@@ -4,7 +4,7 @@
 # You can adjust the behavior by modifying this file.
 # For more information, see:
 # https://github.com/github/super-linter
-name: Lint Code Base
+name: Lint Code Base (Super-Linter)
 
 on:
   push:
@@ -30,3 +30,11 @@ jobs:
           VALIDATE_NATURAL_LANGUAGE: false
           DEFAULT_BRANCH: humble
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          VALIDATE_MARKDOWN: true
+          VALIDATE_YAML: true
+          VALIDATE_XML: true
+          VALIDATE_JSON: true
+          VALIDATE_JSCPD: true
+          VALIDATE_BASH: true
+          VALIDATE_GITLEAKS: true
+          VALIDATE_GITHUB_ACTIONS: true

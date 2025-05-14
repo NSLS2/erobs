@@ -1,6 +1,11 @@
 name: Check Code Style - Ruff
 
-on: [push, pull_request]
+on:
+  push:
+    branches: [main, humble]
+  pull_request:
+    branches: [main, humble]
+  workflow_dispatch:
 
 jobs:
   lint:

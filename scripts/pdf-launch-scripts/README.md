@@ -1,4 +1,4 @@
-# File Contents:
+# File Contents
 Docker launch scripts for ROS2 at the PDF beamline. Detailed documentation on building and deploying containers at NSLS-II
 can be found in our [documentation](https://docs.nsls2.bnl.gov/docs/how-to/containers.html).
 
@@ -11,12 +11,12 @@ podman tag erobs-ur-driver:latest ghcr.io/nsls2/erobs-ur-driver:latest # Retagg 
 podman push ghcr.io/nsls2/erobs-ur-driver:latest # Push up
 ```
 
-## Testing:
+## Testing
 - `hello-talker.sh`: publisher node for testing container communication at beamline
 - `simple_listener.py`: Subscriber node for testing container communication at beamline
 - `ur-driver-launch.sh`: Pure UR driver for testing without gripper
 
-## Deployment:
+## Deployment
 - `bsui-launch.sh`: Launch bsui with ROS2 functionality on an epics networked machine
 
 ### Work in Progress *Depends on ur-hande-draft container to be deprecated.*

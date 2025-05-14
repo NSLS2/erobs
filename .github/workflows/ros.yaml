@@ -1,8 +1,10 @@
 name: ROS C++ Testing and Linting
 
 on:
-  pull_request:
   push:
+    branches: [main, humble]
+  pull_request:
+    branches: [main, humble]
   workflow_dispatch:
 
 jobs:

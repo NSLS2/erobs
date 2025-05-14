@@ -83,7 +83,7 @@ In order to run the `ur-example` with Docker, follow this procedure:
 7. Verify the joint position is `[0, -90, 0, -90, 0, 0]` degrees.
 8. Note: setting initial position is requried for the `ur-example` to start, as specified in the `test_goal_publisher_config.yaml` file in the official Unviersal_Robots_ROS2_Driver repo.
 
-9.  Start the ur-driver. In a new terminal, run
+9. Start the ur-driver. In a new terminal, run
 
   ```bash
   docker compose up urdriver
@@ -105,16 +105,16 @@ VSCode ROS2 Workspace Template Borrowed from @althack.
 
 This template will get you set up using ROS2 with VSCode as your IDE. And help ensure consistent development across the project.
 
-See [how she develops with vscode and ros2](https://www.allisonthackston.com/articles/vscode_docker_ros2.html) for a more in-depth look on how to use this workspace. 
+See [how she develops with vscode and ros2](https://www.allisonthackston.com/articles/vscode_docker_ros2.html) for a more in-depth look on how to use this workspace.
 
-ROS2-approved formatters are included in the IDE.  
+ROS2-approved formatters are included in the IDE.
 
 - **c++** uncrustify; config from `ament_uncrustify`
 - **python** autopep8; vscode settings consistent with the [style guide](https://index.ros.org/doc/ros2/Contributing/Code-Style-Language-Versions/)
 
 ## Notes on pdf_beamtime and its tests
 
-pdf_beamtime is a work-in-progress package aiming to deploy the UR3e robot arm + HandE gripper at the PDF beamline. 
+pdf_beamtime is a work-in-progress package aiming to deploy the UR3e robot arm + HandE gripper at the PDF beamline.
 This package depends on pdf_beamtime_interfaces. Follow the link below for information on the package and for the commands to call the servers implemented in the package.
 
 [Link to pdf_beamtime README](./src/pdf_beamtime/README.md)
