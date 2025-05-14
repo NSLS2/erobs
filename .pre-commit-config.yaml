@@ -1,0 +1,52 @@
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.4.0
+    hooks:
+      - id: check-yaml
+      - id: end-of-file-fixer
+      - id: trailing-whitespace
+  - repo: local
+    hooks:
+      - id: ruff format
+        name: ruff format
+        language: system
+        entry: ruff format --force-exclude
+        types: [python]
+        require_serial: true
+      - id: ruff check
+        name: ruff check
+        language: system
+        entry: ruff check --force-exclude
+        types: [python]
+        require_serial: true
+      - id: ament_cppcheck
+        name: ament_cppcheck
+        description: Static analysis using cppcheck.
+        language: system
+        types: [c++]
+        entry: ament_cppcheck
+      - id: ament_uncrustify
+        name: ament_uncrustify
+        description: Code style checking using uncrustify.
+        language: system
+        types: [c++]
+        args: ["--reformat"]
+        entry: ament_uncrustify
+      - id: ament_lint_cmake
+        name: ament_lint_cmake
+        description: Check CMake code style using cmakelint.
+        language: system
+        types: [cmake]
+        entry: ament_lint_cmake
+      - id: ament_cpplint
+        name: ament_cpplint
+        description: Code style checking using cpplint.
+        language: system
+        types: [c++]
+        entry: ament_cpplint
+      - id: ament_xmllint
+        name: ament_xmllint
+        description: Check XML markup using xmllint.
+        language: system
+        types: [xml]
+        entry: ament_xmllint
