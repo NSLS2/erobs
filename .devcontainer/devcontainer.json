@@ -16,8 +16,8 @@
 		"--security-opt=apparmor:unconfined",
 		"--volume=/tmp/.X11-unix:/tmp/.X11-unix",
 		// "--volume=/mnt/wslg:/mnt/wslg",
-		"--ipc=host",
-		"--pid=host"
+		"--ipc=host"
+		// "--pid=host"  // unsure why this was here, but breaks dev containers on mac silicon.
 	],
 	"containerEnv": {
 		"DISPLAY": "${localEnv:DISPLAY}", // Needed for GUI try ":0" for windows
@@ -47,8 +47,7 @@
 				"twxs.cmake",
 				"yzhang.markdown-all-in-one",
 				"zachflower.uncrustify",
-				"github.copilot",
-				"eamodio.gitlens"
+				"github.copilot"
 			]
 		}
 	}
