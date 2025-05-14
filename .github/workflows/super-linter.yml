@@ -27,7 +27,6 @@ jobs:
           # Set 'ACTIONS_RUNNER_DEBUG: true' for debug output in linter console
           ACTIONS_RUNNER_DEBUG: false
           VALIDATE_ALL_CODEBASE: false
-          VALIDATE_NATURAL_LANGUAGE: false
           DEFAULT_BRANCH: humble
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           VALIDATE_MARKDOWN: true
