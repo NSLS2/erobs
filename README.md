@@ -41,7 +41,6 @@ We use Podman throughout this work, but have named the container images with Doc
   - [ur-driver](./docker/ur-driver): Container image for running the UR3e robot arm ROS2 driver.
   - [ur-moveit](./docker/ur-moveit): Container image for running MoveIt with the UR3e robot arm.
   - [ur-example](./docker/ur-example): Container image for running a simple action with the UR3e robot arm.
-  - [ur-hande-draft](./docker/ur-hande-draft): Deprecated container image for running the UR3e robot arm with the HandE gripper.
   - [erobs-hello-moveit](./docker/erobs-hello-moveit): Container image for running a simple action with the UR3e robot arm.
 
 
