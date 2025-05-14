@@ -8,9 +8,9 @@ name: Lint Code Base
 
 on:
   push:
-    branches: [main]
+    branches: [main, humble]
   pull_request:
-    branches: [main]
+    branches: [main, humble]
 jobs:
   run-lint:
     runs-on: ubuntu-latest
@@ -28,5 +28,5 @@ jobs:
           ACTIONS_RUNNER_DEBUG: false
           VALIDATE_ALL_CODEBASE: false
           VALIDATE_NATURAL_LANGUAGE: false
-          DEFAULT_BRANCH: main
+          DEFAULT_BRANCH: humble
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

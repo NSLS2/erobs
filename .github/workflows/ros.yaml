@@ -1,4 +1,4 @@
-name: ROS
+name: ROS C++ Testing and Linting
 
 on:
   pull_request:
