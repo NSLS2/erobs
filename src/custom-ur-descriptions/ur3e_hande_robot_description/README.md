@@ -25,7 +25,7 @@ These files contains designs for the hand-e robot. .dae files are directly taken
 
 **urdf/hande.xacro**
 
-The previous version of the description file for the hand-e gripper base and fingers were included from *Acutronic Robotic*'s 
+The previous version of the description file for the hand-e gripper base and fingers were included from *Acutronic Robotic*'s
 [robotiq_modular_gripper](https://github.com/AcutronicRobotics/robotiq_modular_gripper/blob/4e708524e5dd20753f711686eb2cd1017a25a09e/robotiq_hande_gripper_description/urdf/robotiq_hande.urdf.xacro)
 and extended to include paramters from config/hande. However, the design of the hande-base includes 4 screws that collides with the coupler.
 Hence, the new design for the base and the coupler are taken from [this github repo](https://github.com/macmacal/robotiq_hande_description).

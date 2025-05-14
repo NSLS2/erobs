@@ -40,7 +40,7 @@ ros2 service call /pdf_new_cylinder_obstacle pdf_beamtime_interfaces/srv/Cylinde
 ros2 service call /pdf_remove_obstacle pdf_beamtime_interfaces/srv/DeleteObstacleMsg "{name: 'inbeam_platform'}"
 ```
 
-## Testing of the FSM with its internal FSM.
+## Testing of the FSM with its internal FSM
 
 FSM is tested for its four main functionality:
 
@@ -49,9 +49,9 @@ FSM is tested for its four main functionality:
 - Launch pdf_beamtime node by running:
 `ros2 launch pdf_beamtime pdf_beamtime.launch.py &`
 - Execute the action client by uncommenting function send_goal() inside the main method in file /src/pdf_beamtime_client.py:
-`python3 src/pdf_beamtime/src/pdf_beamtime_client.py `
--  Expected results: Robot performs pick up, drop off, and returns to the home position (Upright).
--  See below for the expected set of terminal messages:
+`python3 src/pdf_beamtime/src/pdf_beamtime_client.py`
+- Expected results: Robot performs pick up, drop off, and returns to the home position (Upright).
+- See below for the expected set of terminal messages:
 ```bash
 [pdf_beamtime_server]: Current state is state HOME.
 [pdf_beamtime_server]: Executing state HOME
@@ -97,7 +97,7 @@ FSM is tested for its four main functionality:
 - Launch pdf_beamtime node by running:
 `ros2 launch pdf_beamtime pdf_beamtime.launch.py &`
 - Execute the action client by uncommenting the function send_incompatible_goal inside the main method in file /src/pdf_beamtime_client.py:
-`python3 src/pdf_beamtime/src/pdf_beamtime_client.py `
+`python3 src/pdf_beamtime/src/pdf_beamtime_client.py`
 - Expected results: Robot performs pick up, but robot planning fails at the state "State:Place_Approach" . No further state transitions happen and the terminal prints "Goal aborted"
 
 1. Abort the FSM if the gall is canceled by the action client.
@@ -105,7 +105,7 @@ FSM is tested for its four main functionality:
 - Launch pdf_beamtime node by running:
 `ros2 launch pdf_beamtime pdf_beamtime.launch.py &`
 - Execute the action client by uncommenting the function send_self_cancelling_goal inside the main method in file /src/pdf_beamtime_client.py:
-`python3 src/pdf_beamtime/src/pdf_beamtime_client.py `
+`python3 src/pdf_beamtime/src/pdf_beamtime_client.py`
 - Expected results: In 15 seconds after the goal is accepted by the action server, the action client sends a goal cancellation command.  The terminal prints "Received request to cancel goal", and "State machine was RESET". No further state transitions happen, the robot is moved to the State:Home state. Upon a successful transition to the state:Home, the terminal prints "Goal Cancelled !"
 
 1. Print the completion percentage:

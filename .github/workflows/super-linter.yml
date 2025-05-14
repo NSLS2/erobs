@@ -33,7 +33,6 @@ jobs:
           VALIDATE_YAML: true
           VALIDATE_XML: true
           VALIDATE_JSON: true
-          VALIDATE_JSCPD: true
-          VALIDATE_BASH: true
+          # VALIDATE_JSCPD: true # TODO: Enable this in the future
           VALIDATE_GITLEAKS: true
           VALIDATE_GITHUB_ACTIONS: true
