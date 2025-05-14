@@ -29,3 +29,5 @@ USER ros
 RUN curl -fsSL https://pixi.sh/install.sh | sh
 RUN echo 'export PATH="/home/ros/.pixi/bin:$PATH"' >> /home/ros/.bashrc
 RUN echo 'eval "$(pixi completion --shell bash)"' >> /home/ros/.bashrc
+
+USER root
