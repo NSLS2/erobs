@@ -1,0 +1,56 @@
+---
+code_id: 155614
+site_ownership_code: "BNL"
+open_source: true
+repository_link: "https://github.com/nsls2/erobs.git"
+project_type: "OS"
+software_type: "S"
+official_use_only: {}
+developers:
+  - email: "pmaffetto@bnl.gov"
+    orcid: "0000-0001-7173-7972"
+    first_name: "Phillip"
+    last_name: "Maffettone"
+    middle_name: "M"
+    affiliations:
+      - "Brookhaven National Lab. (BNL), Upton, NY (United States). National Synchrotron\
+        \ Light Source II (NSLS-II)"
+contributors:
+  - email: "wfernando1@bnl.gov"
+    orcid: ""
+    first_name: "Chandima"
+    last_name: "Fernando"
+    middle_name: ""
+    affiliations:
+      - "Brookhaven National Lab. (BNL), Upton, NY (United States). National Synchrotron\
+        \ Light Source II (NSLS-II)"
+sponsoring_organizations: []
+contributing_organizations:
+  - organization_name: "Brookhaven National Laboratory"
+    contributor_type: "HostingInstitution"
+    DOE: true
+research_organizations:
+  - organization_name: "Brookhaven National Laboratory (BNL), Upton, NY (United States)"
+    DOE: true
+related_identifiers: []
+award_dois: []
+software_title: "Extensible Robotic Beamline Scientist"
+acronym: "ERoBS"
+description: "Project repository for building extensible robotic beamline scientists\
+  \ at NSLS-II."
+programming_languages:
+  - "C++"
+  - "Python"
+country_of_origin: "United States"
+project_keywords: "Robot;Robotics"
+licenses:
+  - 'BSD 3-clause "New" or "Revised" License'
+date_record_added: "2025-05-15"
+date_record_updated: "2025-05-15"
+is_migration: false
+is_file_certified: false
+last_editor: "pmaffetto@bnl.gov"
+is_limited: false
+links:
+  - rel: "citation"
+    href: "https://www.osti.gov/doecode/biblio/155614"
