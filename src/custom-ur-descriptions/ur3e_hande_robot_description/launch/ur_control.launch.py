@@ -477,7 +477,7 @@ def generate_launch_description():
             "kinematics_params_file",
             default_value=PathJoinSubstitution(
                 [
-                    FindPackageShare(LaunchConfiguration("description_package")),
+                    FindPackageShare(LaunchConfiguration("ur_description_package")),
                     "config",
                     LaunchConfiguration("ur_type"),
                     "default_kinematics.yaml",
