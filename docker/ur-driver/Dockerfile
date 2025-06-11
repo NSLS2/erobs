@@ -20,7 +20,7 @@ RUN mkdir /root/ws/src -p
 
 WORKDIR /root/ws/src
 
-RUN git clone https://github.com/maffettone/erobs.git -b humble
+RUN git clone https://github.com/nsls2/erobs.git -b humble
 
 WORKDIR /root/ws/
 

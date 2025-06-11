@@ -10,7 +10,7 @@ RUN apt-get update \
         ros-${ROS_DISTRO}-ur \
         build-essential \
         python3-colcon-common-extensions
-        
+
 RUN apt-get install -y x11vnc xvfb 
 # Clean up
 RUN apt-get autoremove -y \
@@ -23,7 +23,7 @@ RUN mkdir /root/ws -p
 
 WORKDIR /root/ws
 
-RUN git clone https://github.com/maffettone/erobs.git -b humble
+RUN git clone https://github.com/nsls2/erobs.git -b humble
 
 WORKDIR /root/ws/erobs/
 RUN /bin/bash -c ". ./setup.sh"
