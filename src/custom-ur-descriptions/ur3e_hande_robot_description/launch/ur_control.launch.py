@@ -57,7 +57,9 @@ def launch_setup(context, *args, **kwargs):
     runtime_config_package = LaunchConfiguration("runtime_config_package")
     controllers_file = LaunchConfiguration("controllers_file")
     description_package = LaunchConfiguration("description_package")
+    ur_description_package = LaunchConfiguration("ur_description_package")
     description_file = LaunchConfiguration("description_file")
+    kinematics_params_file = LaunchConfiguration("kinematics_params_file")
     tf_prefix = LaunchConfiguration("tf_prefix")
     use_fake_hardware = LaunchConfiguration("use_fake_hardware")
     fake_sensor_commands = LaunchConfiguration("fake_sensor_commands")
@@ -82,6 +84,15 @@ def launch_setup(context, *args, **kwargs):
     script_sender_port = LaunchConfiguration("script_sender_port")
     trajectory_port = LaunchConfiguration("trajectory_port")
 
+    joint_limit_params = PathJoinSubstitution(
+        [FindPackageShare(ur_description_package), "config", ur_type, "joint_limits.yaml"]
+    )
+    physical_params = PathJoinSubstitution(
+        [FindPackageShare(ur_description_package), "config", ur_type, "physical_parameters.yaml"]
+    )
+    visual_params = PathJoinSubstitution(
+        [FindPackageShare(ur_description_package), "config", ur_type, "visual_parameters.yaml"]
+    )
     script_filename = PathJoinSubstitution(
         [FindPackageShare("ur_client_library"), "resources", "external_control.urscript"]
     )
@@ -100,6 +111,18 @@ def launch_setup(context, *args, **kwargs):
             " ",
             "robot_ip:=",
             robot_ip,
+            " ",
+            "joint_limit_params:=",
+            joint_limit_params,
+            " ",
+            "kinematics_params:=",
+            kinematics_params_file,
+            " ",
+            "physical_params:=",
+            physical_params,
+            " ",
+            "visual_params:=",
+            visual_params,
             " ",
             "safety_limits:=",
             safety_limits,
@@ -429,8 +452,16 @@ def generate_launch_description():
     declared_arguments.append(
         DeclareLaunchArgument(
             "description_package",
-            default_value="ur_description",
+            default_value="ur3e_hande_robot_description",
             description="Description package with robot URDF/XACRO files. Usually the argument "
+            "is not set, it enables use of a custom description.",
+        )
+    )
+    declared_arguments.append(
+        DeclareLaunchArgument(
+            "ur_description_package",
+            default_value="ur_description",
+            description="Description package with UR only URDF/XACRO files. Usually the argument "
             "is not set, it enables use of a custom description.",
         )
     )
