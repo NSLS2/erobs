@@ -1,4 +1,6 @@
 name: ROS C++ Testing and Linting
+permissions:
+  contents: read
 
 on:
   push:
@@ -14,6 +16,8 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+        with:
+          persist-credentials: false
       - name: Test
         uses: ./.github/actions/test/
 
@@ -27,6 +31,8 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+        with:
+          persist-credentials: false
       - name: Run linter
         uses: ./.github/actions/lint/
         env:
