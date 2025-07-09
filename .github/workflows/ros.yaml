@@ -1,4 +1,6 @@
 name: ROS C++ Testing and Linting
+permissions:
+  contents: read
 
 on:
   push:

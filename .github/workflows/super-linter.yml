@@ -5,6 +5,8 @@
 # For more information, see:
 # https://github.com/github/super-linter
 name: Lint Code Base (Super-Linter)
+permissions:
+  contents: read
 
 on:
   push:
