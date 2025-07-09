@@ -3,4 +3,4 @@ description: 'Lint using devcontainer'
 runs:
   using: 'docker'
   image: '../../../.devcontainer/Dockerfile'
-  entrypoint: "run.sh"
+  entrypoint: "/github/workspace/.github/actions/lint/run.sh"
