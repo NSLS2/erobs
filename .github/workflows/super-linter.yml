@@ -5,6 +5,8 @@
 # For more information, see:
 # https://github.com/github/super-linter
 name: Lint Code Base (Super-Linter)
+permissions:
+  contents: read
 
 on:
   push:
@@ -18,8 +20,8 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
         with:
-          # Full git history is needed to get a proper list of changed files within `super-linter`
           fetch-depth: 0
+          persist-credentials: false
 
       - name: Lint Code Base
         uses: github/super-linter@v7
