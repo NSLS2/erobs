@@ -30,3 +30,8 @@ Perform the Setup steps above before attempting to launch
 
 This command will launch with the default parameters specified in the `move_group.launch.py` file. You can customize your own launch settings, using like how in the command we specify a custom ip.
 
+## Examples
+
+Once the move group has been launched, make sure the external control ur cap is added to the program and play the robot.
+
+You can select the ur_arm or the end effector group in the motionplanning plugin and move the robot, then press plan and execute the plan.

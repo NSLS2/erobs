@@ -4,19 +4,17 @@ Project repository for building extensible robotic beamline scientists at NSLS-I
 
 ## Contents
 
-The majority of the contents in this repository are ROS2 packages with associated continer image manifests.
+The majority of the contents in this repository are ROS2 packages with associated container image manifests.
 Each manifest in the [docker](./docker) directory is a container image that can be used to run a specific application in the system.
 
 ### Source Contents
 
 - [ros2.repos](./src/ros2.repos): ROS2 workspace file for downloading the required external ROS2 dependencies.
-- [robotiq-hande](./src/robotiq-hande): Source directory for the HandE gripper.
-  - [gripper_service](./src/robotiq-hande/gripper_service): ROS2 package for controlling the HandE gripper.
-  - Other packages are pulled in through rosdep.
+- [robotiq-hande](./src/robotiq-hande): Source directory for the HandE gripper. TO BE DEPRECATED
+  - [gripper_service](./src/robotiq-hande/gripper_service): ROS2 package for controlling the HandE gripper. TO BE DEPRECATED
 - [custom-ur-descriptions](./src/custom-ur-descriptions): Source directory for custom UR robot arm descriptions (e.g., attaching grippers or other end effectors).
-  - [ur3e_hande_robot_description](./src/custom-ur-descriptions/ur3e_hande_robot_description): ROS2 package for defining the UR3e robot arm with the HandE gripper.
-  - [ur3e_hande_moveit_config](./src/custom-ur-descriptions/ur3e_hande_moveit_config): ROS2 package for configuring MoveIt for the UR3e robot arm with the HandE gripper.
-  - The UR robot arm description is pulled in through rosdep.
+  - [ur3e_hande_robot_description](./src/custom-ur-descriptions/ur3e_hande_robot_description): ROS2 package for defining the UR3e robot arm with the HandE gripper. TO BE DEPRECATED
+  - [ur3e_hande_moveit_config](./src/custom-ur-descriptions/ur3e_hande_moveit_config): ROS2 package for configuring MoveIt for the UR3e robot arm with the HandE gripper. TO BE DEPRECATED
 - [bluesky_ros](./src/bluesky_ros): Python module for integrating Bluesky and ROS2.
 - [aruco_pose](./src/aruco_pose): ROS2 package for detecting ArUco markers and calculating their pose.
 - [pdf](./src/pdf): Source directory for PDF beamline specific applications.
@@ -53,51 +51,35 @@ that can deploy MoveIt using the MoveGroupInterface.
 
 Ongoing developments of integrating ROS2 and Bluesky. Currently targeted towards integrating Ophyd Objects as ROS2 Action Clients.
 
-## Using Containers to Run the Full Applicaiton Suite
+## Using Containers to Run the Full Application Suite
 
 The complete application uses a 1-node-per-container model. The containers are currently orchestrated by bash scripts detailed in the READMEs of each container image. Specifically, the full application is detailed in [erobs-common-img](./docker/erobs-common-img/README.md).
 
+# Local Testing
+
 ## Running some example applications
 
-In order to run the `ur-example` with Docker, follow this procedure:
+You can get a taste of the current development with move groups by running the setup on your computer locally.
 
-1. Create the required images.
+The ur5e_hande_moveit_config package contains ROS2 launch files that can be used to launch Rviz, Robotiq Hande Gripper driver, ur robot driver, and the moveit plugin. You should be able to follow the [README](src/custom-ur-descriptions/ur5e_hande_moveit_config/README.md) and start 
+controlling the actual robot. 
 
-  ```bash
-  cd docker
-  docker build -t ursim:latest ./ursim
-  docker build -t ur-driver:latest ./ur-driver
-  docker build -t ur-example:latest ./ur-example
-  ```
+## Setup
 
-2. Start the UR Simulator. In a new terminal, run
+Install ROS2 Humble on your computer: [link](https://docs.ros.org/en/humble/Installation/Ubuntu-Install-Debs.html)
 
-  ```bash
-  docker compose up ursim
-  ```
+Install the ur driver from Universal robot with 
 
-3. Open VNC client at `localhost:5900`.
-4. Turn on and start the robot.
-5. Go to the `Move` tab and click the `Home` button.
-6. Press and hold the `Move robot to: New position` button to move the robot into position. Press `Continue`.
-7. Verify the joint position is `[0, -90, 0, -90, 0, 0]` degrees.
-8. Note: setting initial position is requried for the `ur-example` to start, as specified in the `test_goal_publisher_config.yaml` file in the official Unviersal_Robots_ROS2_Driver repo.
+`sudo apt-get install ros-${ROS_DISTRO}-ur`
 
-9. Start the ur-driver. In a new terminal, run
+Clone this repository and change directory to the project root folder
 
-  ```bash
-  docker compose up urdriver
-  ```
+run `bash setup.sh` To install all dependencies
 
-Now, go back to the VNC client. In the `Program` tab, start the program.
+run `bash build.sh` TO build the packages in this project
 
-10. Run the ur-example. In a new terminal, run
+Go into each README and you should find instructions on how to use each package
 
-  ```bash
-  docker compose up urexample
-  ```
-
-The in `Program/Graphics` tab, the robot should be moving between four poses every 6 seconds.
 
 ## Notes on VSCode Workspace
 
