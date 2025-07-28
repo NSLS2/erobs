@@ -1,0 +1,46 @@
+# Extracted calibration information from the UR5e robot
+# for steps to extract the calibration information, see: https://docs.universal-robots.com/Universal_Robots_ROS2_Documentation/doc/ur_robot_driver/ur_robot_driver/doc/installation/robot_setup.html
+kinematics:
+  shoulder:
+    x: 0
+    y: 0
+    z: 0.16260119103493989
+    roll: -0
+    pitch: 0
+    yaw: 5.6446715484062542e-08
+  upper_arm:
+    x: 5.0747811078465147e-05
+    y: 0
+    z: 0
+    roll: 1.5704524934465869
+    pitch: 0
+    yaw: -4.3848131570101151e-07
+  forearm:
+    x: -0.425339544116836
+    y: 0
+    z: 0
+    roll: 3.1405921296001549
+    pitch: 3.140015588611444
+    yaw: 3.1415771552539051
+  wrist_1:
+    x: -0.39212480859428955
+    y: -0.00070901537063802072
+    z: 0.13387434235334733
+    roll: 0.0052960763746110256
+    pitch: 0.001323324865500051
+    yaw: 4.8499564410841671e-06
+  wrist_2:
+    x: -3.7545657827714984e-07
+    y: -0.099868831574699196
+    z: 3.5653030293670159e-05
+    roll: 1.5704393282377205
+    pitch: 0
+    yaw: 2.1955918973817767e-06
+  wrist_3:
+    x: -2.3804544682715832e-05
+    y: 0.099548048902170255
+    z: 1.6577536206585414e-05
+    roll: 1.570962854780489
+    pitch: 3.1415926535897931
+    yaw: -3.141592619557402
+  hash: calib_14578360067925391022
