@@ -4,15 +4,3 @@
 # Example:
 ############
 repositories:
-  robotiq-hande/gripper:
-    type: git
-    url: https://github.com/PickNikRobotics/ros2_robotiq_gripper.git
-    version: cmake-external-project-serial
-  robotiq-hande/serial:
-    type: git
-    url: https://github.com/PickNikRobotics/serial-release.git
-    version: release/humble/serial
-  custom-ur-descriptions/ur_description:
-    type: git
-    url: https://github.com/UniversalRobots/Universal_Robots_ROS2_Description.git
-    version: 21d5bfc277cffc7eb97c6a515deb8fc2001cc871
