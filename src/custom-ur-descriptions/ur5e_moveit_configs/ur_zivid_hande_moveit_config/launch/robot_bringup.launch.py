@@ -20,7 +20,7 @@ def generate_launch_description():
     controllers_file = DeclareLaunchArgument('controllers_file', default_value=os.path.join(get_package_share_directory("ur_zivid_hande_moveit_config"), "config", "ur_hande_controllers.yaml"))
 
 
-    xacro_args = {"name": "ur", "ur_type": LaunchConfiguration("ur_type"), "tf_prefix": "" }
+    xacro_args = {"name": LaunchConfiguration("ur_type"), "ur_type": LaunchConfiguration("ur_type"), "tf_prefix": "" }
 
     ## ur_driver 
     ur_control_launch = IncludeLaunchDescription(

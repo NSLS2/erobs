@@ -1,10 +1,10 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://wiki.ros.org/xacro" name="$(arg name)">
-  <!-- Based on ur_with_hande.xacro; assembles UR robot + Zivid camera mount + EPick gripper
-       Chain: map -> UR -> flange -> zivid_camera_mount -> zivid_camera -> EPick gripper -->
+ 
+<!--   Chain: map -> UR -> flange -> zivid_camera_mount -> zivid_camera -> EPick gripper -->
 
   <!-- robot name parameter -->
-  <xacro:arg name="name" default="ur"/>
+  <xacro:arg name="name" default="ur5e"/>
 
   <!-- import main macros -->
   <xacro:include filename="$(find ur_description)/urdf/ur_macro.xacro"/>
@@ -106,12 +106,13 @@
     <origin xyz="0 0 0" rpy="0 0 0" />
   </xacro:ur_robot>
 
-  <!-- Position wrt camera -->
+  <!-- Zivid Camera mount -->
   <xacro:zivid_camera_mount parent_link="$(arg tf_prefix)flange" xyz="0.025 0 -0.105" rpy="-1.5708 0 -1.5708"/>
 
   <!-- Tool block attached to the Zivid camera -->
   <xacro:tool_block parent_link="zivid_camera" xyz="0 -0.105 0.03" rpy="-1.5708 0 0"/>
 
+  <!-- ZEpick Gripper -->
   <xacro:epick_overlay use_fake_hardware="true" parent="tool_block"
                   origin_xyz="0 -0.02 0"
                   origin_rpy="-1.5708 0 3.1416"/>
