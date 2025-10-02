@@ -4,7 +4,7 @@
   <name>epick_config</name>
   <version>0.1.0</version>
   <description>Overlay configuration for ros2_epick_gripper (pose and serial port).</description>
-  <maintainer email="aditya@example.com">Aditya</maintainer>
+  <maintainer email="abondada@bnl.gov">Aditya Bondada</maintainer>
   <license>Apache-2.0</license>
 
   <buildtool_depend>ament_cmake</buildtool_depend>
