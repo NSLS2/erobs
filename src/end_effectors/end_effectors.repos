@@ -13,5 +13,5 @@ repositories:
     version: humble-devel
   ros2_epick_gripper:
     type: git
-    url: https://github.com/bondada-a/ros2_epick_gripper.git
+    url: https://github.com/PickNikRobotics/ros2_epick_gripper.git
     version: main

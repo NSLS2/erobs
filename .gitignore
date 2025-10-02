@@ -91,3 +91,9 @@ target/
 
 #Pixi
 pixi.lock
+
+# End effector drivers (imported via vcs)
+src/end_effectors/serial/
+src/end_effectors/robotiq_hande_driver/
+src/end_effectors/robotiq_hande_description/
+src/end_effectors/ros2_epick_gripper/
