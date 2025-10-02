@@ -5,14 +5,17 @@ This directory contains MoveIt configuration packages for UR5e robotic systems w
 ## Available Configurations
 
 ### ur_standalone_moveit_config
+
 - **Robot**: UR5e arm with Zivid camera and tool exchanger robotside
 - **Chain**: UR5e → Zivid Camera → TE_RobotSide
 
 ### ur_zivid_hande_moveit_config
+
 - **Robot**: UR5e arm with Zivid camera, tool block, and Robotiq Hand-E gripper
 - **Chain**: UR5e → Zivid Camera → Tool Block → Hand-E Gripper
 
 ### ur_zivid_epick_moveit_config
+
 - **Robot**: UR5e arm with Zivid camera, tool block, and ePick vacuum gripper
 - **Chain**: UR5e → Zivid Camera → Tool Block → ePick Gripper
 
@@ -20,7 +23,7 @@ This directory contains MoveIt configuration packages for UR5e robotic systems w
 
 Each MoveIt configuration package follows a standard structure:
 
-```
+```text
 ur_<config_name>_moveit_config/
 ├── CMakeLists.txt                    # Build configuration
 ├── package.xml                       # Package metadata
@@ -43,6 +46,7 @@ ur_<config_name>_moveit_config/
 ## Configuration Files Explained
 
 ### Core MoveIt Files
+
 - **ur.srdf**: Semantic Robot Description Format file defining planning groups, disabled collisions, and poses
 - **kinematics.yaml**: Inverse kinematics solver configuration (uses KDL plugin)
 - **joint_limits.yaml**: Velocity/acceleration scaling and joint-specific limits
@@ -50,10 +54,12 @@ ur_<config_name>_moveit_config/
 - **moveit_controllers.yaml**: Maps MoveIt planning groups to ROS2 controllers
 
 ### Hardware Integration
-- **ur_<gripper>_controllers.yaml**: ROS2 control configuration for specific grippers
+
+- **ur_&lt;gripper&gt;_controllers.yaml**: ROS2 control configuration for specific grippers
 - **ur.urdf.xacro**: Robot description file that MoveIt uses internally
 
 ### Launch Configuration
+
 - **robot_bringup.launch.py**:
   - Launches UR robot driver with hardware interface
   - Starts MoveIt move_group node with planning capabilities
@@ -88,6 +94,7 @@ Each launch file accepts the following parameters:
 - `rviz_config`: RViz configuration file to load
 
 Example with custom parameters:
+
 ```bash
 ros2 launch ur_zivid_hande_moveit_config robot_bringup.launch.py robot_ip:=192.168.1.100 ur_type:=ur5e
 ```
@@ -98,10 +105,10 @@ For detailed instructions on creating new MoveIt configurations, please refer to
 
 **[MoveIt Setup Assistant Tutorial](https://moveit.picknik.ai/main/doc/examples/setup_assistant/setup_assistant_tutorial.html)**
 
-
 ## Configuration Consistency
 
 All configurations maintain consistency in:
+
 - **Kinematics**: Same solver settings across all configs
 - **Joint Limits**: Identical UR arm limits, gripper-specific limits vary
 - **OMPL Planning**: Consistent planner configurations
@@ -114,6 +121,7 @@ Robot name is set dynamically using the `ur_type` parameter (e.g., ur3e, ur5e, u
 ## Integration with Robot Description
 
 These MoveIt configurations work with robot descriptions from:
+
 - **ur5e_robot_description**: Custom URDF files for complete robot systems
 - **ur_description**: Standard UR robot configuration files
 - **robotiq_hande_description**: Hand-E gripper descriptions
@@ -122,4 +130,3 @@ These MoveIt configurations work with robot descriptions from:
 ## TODO
 
 - Have consistent "moveit_home" values across SRDFs
-
