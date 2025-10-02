@@ -116,7 +116,7 @@ All configurations maintain consistency in:
 
 ### Robot Naming Convention
 
-Robot name is set dynamically using the `ur_type` parameter (e.g., ur3e, ur5e, ur10e) to match ur_control's behavior. The launch files pass `name:=LaunchConfiguration("ur_type")` to ensure consistency between the `/robot_description` topic (used by action servers and ur_control) and MoveIt's move_group. This allows the same launch files to work with any UR robot type by simply changing the `ur_type` parameter.
+Robot name is set dynamically using the `ur_type` parameter (e.g., ur3e, ur5e, ur10e) to match ur_control's behavior. The launch files pass `name:=LaunchConfiguration("ur_type")` to ensure consistency between the `/robot_description` topic (used by action servers and ur_control) and MoveIt's move_group. This enables using the same launch files for any UR robot type.
 
 ## Integration with Robot Description
 
