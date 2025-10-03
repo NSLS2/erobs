@@ -1,4 +1,10 @@
-# To run the demo contianers
+# ⚠️ DEPRECATED - See [DEPRECATED.md](./DEPRECATED.md)
+
+**This directory is deprecated. Use `.devcontainer/Dockerfile` and GHCR images instead.**
+
+---
+
+# To run the demo contianers for Learning purposes
 
 ```bash
 cd docker/ursim

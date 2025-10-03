@@ -1,6 +1,6 @@
 # Extensible Robotic Beamline Scientist
 
-Project repository for building extensible robotic beamline scientists at NSLS-II.
+Project repository for building extensible robotic beamline scientists at NSLS-II. ROS 2 Humble with Ubuntu 22.04 LTS
 
 ## Contents
 
@@ -29,22 +29,29 @@ Each manifest in the [docker](./docker) directory is a container image that can 
   - [hello_moveit_interfaces](./src/demos/hello_moveit_interfaces): ROS2 package for defining the interfaces used in the hello_moveit package.
 
 
-### Docker Contents 
+### Docker Contents
 
-We use Podman throughout this work, but have named the container images with Docker in mind.
+**⚠️ The `docker/` directory and `scripts/pdf-launch-scripts/` are DEPRECATED. See below for the active deployment workflow.**
 
-- [erobs-common-img](./docker/erobs-common-img): Common container image for running the majority of applications herein, including: UR robot driver, gripper service, MoveIt service, and the pdf_beamtime_server (primary `Action` server).
-- [bsui](./docker/bsui): Container image for running the Bluesky User Interface with mounts at NSLS-II.
-- [azure-kinect](./docker/azure-kinect): Container image for running the Azure Kinect ROS2 driver.
-- Other auxiliary container images that are not used in the main application, but are useful for development and testing:
-  - [ursim](./docker/ursim): Container image for running a simulated UR3e robot arm with a teach pendant.
-  - [ur-driver](./docker/ur-driver): Container image for running the UR3e robot arm ROS2 driver.
-  - [ur-moveit](./docker/ur-moveit): Container image for running MoveIt with the UR3e robot arm.
-  - [ur-example](./docker/ur-example): Container image for running a simple action with the UR3e robot arm.
-  - [erobs-hello-moveit](./docker/erobs-hello-moveit): Container image for running a simple action with the UR3e robot arm.
+#### Active Deployment Workflow
 
-**⚠️ Deprecation Warning:**  
-The container images currently in the `docker` directory are being deprecated, as they will soon depend on different source code. Please be aware that these images may not reflect the latest application structure or codebase.
+For development and deployment
+
+- **Development**: Use [.devcontainer/Dockerfile](./.devcontainer/Dockerfile) with VSCode devcontainer for local development
+- **CI/CD**: Automated builds via [.github/workflows/docker-build.yaml](./.github/workflows/docker-build.yaml)
+  - Push a version tag to trigger automatic build and publish to GitHub Container Registry (GHCR)
+- **Deployment**: Pull the unified container image from GHCR at `ghcr.io/<your-org>/<your-repo>:latest`
+  - All dependencies are pre-installed (no apt install required at deployment)
+  - Launch ROS2 nodes using `ros2 launch` commands directly from the container
+
+#### Deprecated Docker Contents (For Reference Only)
+
+The following directories contain legacy container configurations and are **no longer maintained**:
+
+- [docker/](./docker/): Legacy multi-container Dockerfiles - See [docker/DEPRECATED.md](./docker/DEPRECATED.md)
+- [scripts/pdf-launch-scripts/](./scripts/pdf-launch-scripts/): Legacy deployment scripts referencing gatekept GHCR images - See [scripts/pdf-launch-scripts/DEPRECATED.md](./scripts/pdf-launch-scripts/DEPRECATED.md)
+
+These can be used for learning purposes but should not be used for active development or deployment.
 
 ### Hello Moveit
 
@@ -54,11 +61,46 @@ Demonstrations using a combination of the MoveIt tutorials and some UR specific 
 
 Ongoing developments of integrating ROS2 and Bluesky. Currently targeted towards integrating Ophyd Objects as ROS2 Action Clients.
 
-## Using Containers to Run the Full Application Suite
+## Development Setup
 
-The complete application uses a 1-node-per-container model. The containers are currently orchestrated by bash scripts detailed in the READMEs of each container image. Specifically, the full application is detailed in [erobs-common-img](./docker/erobs-common-img/README.md).
+### Local Development with VSCode
 
-## Running some example applications
+1. Install VSCode with the Remote-Containers extension
+2. Open this repository in VSCode
+3. VSCode will prompt to "Reopen in Container" - accept this
+4. The devcontainer will automatically build using `.devcontainer/Dockerfile`
+5. Once inside the container, build the workspace:
+   ```bash
+   colcon build --symlink-install
+   source install/setup.bash
+   ```
+
+### Deployment
+
+For production deployment:
+
+1. **Automated Build**: Push a version tag to trigger GitHub Actions
+   ```bash
+   git tag v1.0.0
+   git push origin v1.0.0
+   ```
+
+2. **Pull from GHCR**: On your deployment machine
+   ```bash
+   podman pull ghcr.io/<your-org>/<your-repo>:latest
+   ```
+
+3. **Run containers**: Launch ROS2 nodes with appropriate environment variables
+   ```bash
+   podman run -it --network host --ipc=host \
+     --env ROS_DOMAIN_ID=10 \
+     ghcr.io/<your-org>/<your-repo>:latest \
+     ros2 launch <package> <launch_file>
+   ```
+
+## Running Example Applications (Legacy - For Learning Only)
+
+**⚠️ The following examples use deprecated docker configurations. See above for current deployment workflow.**
 
 In order to run the `ur-example` with Docker, follow this procedure:
 
@@ -99,9 +141,6 @@ Now, go back to the VNC client. In the `Program` tab, start the program.
   ```
 
 The in `Program/Graphics` tab, the robot should be moving between four poses every 6 seconds.
-
-**⚠️ Deprecation Warning:**  
-With the current move towards using MoveIt Task Constructor, we will be only spinning up one container. Theses examples and instructions demonstrate how to send basic commands directly using using ur-driver and should be placed in an tutorial/testing folder. 
 
 ## Notes on VSCode Workspace
 

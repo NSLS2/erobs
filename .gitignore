@@ -5,10 +5,10 @@ site
 erobs.code-workspace
 
 # Packages being handled by vcs
-pipettor/*
-robotiq_hande/*
-ros2_epick_gripper/*
-serial/*
+src/end_effectors/pipettor
+src/end_effectors/robotiq_hande
+src/end_effectors/ros2_epick_gripper
+src/end_effectors/serial
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

@@ -1,3 +1,9 @@
+# ⚠️ DEPRECATED - See [DEPRECATED.md](./DEPRECATED.md)
+
+**This directory is deprecated. Use `.devcontainer/Dockerfile` and GHCR images instead.**
+
+---
+
 # File Contents
 Docker launch scripts for ROS2 at the PDF beamline. Detailed documentation on building and deploying containers at NSLS-II
 can be found in our [documentation](https://docs.nsls2.bnl.gov/docs/how-to/containers.html).

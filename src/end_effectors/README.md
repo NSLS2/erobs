@@ -17,7 +17,7 @@ This pulls in:
 - `pipettor` - Custom pipettor developed at CMS NSLS-2
 
 
-**Note:** The EPick driver uses a fork from https://github.com/bondada-a/ros2_epick_gripper.git instead of the upstream PickNikRobotics version. This fork includes updated headers and removes the epick_moveit_studio package (requires Moveit Pro).
+**Note:** The EPick driver uses a fork from <https://github.com/bondada-a/ros2_epick_gripper.git> instead of the upstream PickNikRobotics version. This fork includes updated headers and removes the epick_moveit_studio package (requires Moveit Pro).
 
 ## EPick Configuration
 
