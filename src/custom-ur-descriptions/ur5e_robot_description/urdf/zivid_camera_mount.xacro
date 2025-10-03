@@ -1,0 +1,48 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro" name="zivid_camera_mount">
+
+  <!--
+    Zivid camera mount macro
+    - Modeled after tool_exchanger.xacro style
+    - Parameters allow positioning/orientation relative to the parent link
+  -->
+  <xacro:macro name="zivid_camera_mount" params="parent_link xyz:='0 0 0' rpy:='0 0 0' scale:='1.0' mass:='1.1'">
+
+    <link name="zivid_camera">
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <mesh filename="package://ur5e_robot_description/meshes/zivid/zivid_assembly_decimated.stl"
+                scale="${scale} ${scale} ${scale}"/>
+        </geometry>
+        <material name="grey">
+          <color rgba="0.5 0.5 0.5 1.0"/>
+        </material>
+      </visual>
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <mesh filename="package://ur5e_robot_description/meshes/zivid/zivid_assembly_decimated.stl"
+                scale="${scale} ${scale} ${scale}"/>
+        </geometry>
+      </collision>
+      <inertial>
+        <mass value="${mass}"/>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <inertia ixx="0.001" ixy="0.0" ixz="0.0"
+                 iyy="0.001" iyz="0.0"
+                 izz="0.001"/>
+      </inertial>
+    </link>
+
+    <joint name="zivid_camera_mount_joint" type="fixed">
+      <parent link="${parent_link}"/>
+      <child link="zivid_camera"/>
+      <origin xyz="${xyz}" rpy="${rpy}"/>
+    </joint>
+
+  </xacro:macro>
+
+</robot>
+
+

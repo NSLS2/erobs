@@ -1,0 +1,61 @@
+planning_plugin: ompl_interface/OMPLPlanner
+request_adapters: 
+  default_planner_request_adapters/AddTimeOptimalParameterization
+planner_configs:
+  RRTConnectkConfigDefault:
+    type: geometric::RRTConnect
+    range: 0.0
+    # goal_tolerance: 0.01
+    # num_planning_attempts: 10
+    # planning_time: 10.0
+  RRTstar:
+    type: geometric::RRTstar
+    range: 1.0
+  PRMkConfigDefault:
+    type: geometric::PRM
+    range: 0.0
+  RRTkConfigDefault:
+    type: geometric::RRT
+    range: 0.0
+  ESTkConfigDefault:
+    type: geometric::EST
+    range: 0.0
+  LBKPIECEkConfigDefault:
+    type: geometric::LBKPIECE
+    range: 0.0
+  BKPIECEkConfigDefault:
+    type: geometric::BKPIECE
+    range: 0.0
+  KPIECEkConfigDefault:
+    type: geometric::KPIECE
+    range: 0.0
+  BiTRRTkConfigDefault:
+    type: geometric::BiTRRT
+    range: 0.0
+  LazyPRMkConfigDefault:
+    type: geometric::LazyPRM
+    range: 0.0
+  SBLkConfigDefault:
+    type: geometric::SBL
+    range: 0.0
+
+ur_arm:
+  default_planner_config: RRTConnectkConfigDefault
+  planner_configs:
+    - RRTConnectkConfigDefault
+    - RRTstar
+    - PRMkConfigDefault
+    - RRTkConfigDefault
+    - ESTkConfigDefault
+    - LBKPIECEkConfigDefault
+    - BKPIECEkConfigDefault
+    - KPIECEkConfigDefault
+    - BiTRRTkConfigDefault
+    - LazyPRMkConfigDefault
+    - SBLkConfigDefault
+
+# Optionally, if you have a gripper group:
+# gripper:
+#   default_planner_config: RRTConnectkConfigDefault
+#   planner_configs:
+#     - RRTConnectkConfigDefault
