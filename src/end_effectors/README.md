@@ -15,6 +15,7 @@ This pulls in:
 - `robotiq_hande_driver` - Robotiq HandE gripper driver
 - `robotiq_hande_description` - Robotiq HandE URDF models
 - `ros2_epick_gripper` - EPick vacuum gripper driver
+- `pipettor` - Custom pipettor developed at CMS NSLS-2
 
 **Note:** The `ros2_epick_gripper` repository includes `epick_moveit_studio` which depends on paywalled MoveIt Studio/MoveIt Pro packages. Since we don't use this package, skip it during build and dependency installation:
 

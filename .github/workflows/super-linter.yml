@@ -8,9 +8,10 @@ name: Lint Code Base (Super-Linter)
 
 on:
   push:
-    branches: [main, humble]
+    branches: [main, humble, feature/*]
   pull_request:
-    branches: [main, humble]
+    branches: [main, humble, feature/*]
+
 jobs:
   run-lint:
     runs-on: ubuntu-latest

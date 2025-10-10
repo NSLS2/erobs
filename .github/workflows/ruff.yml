@@ -2,9 +2,9 @@ name: Check Code Style - Ruff
 
 on:
   push:
-    branches: [main, humble]
+    branches: [main, humble, feature/*]
   pull_request:
-    branches: [main, humble]
+    branches: [main, humble, feature/*]
   workflow_dispatch:
 
 jobs:

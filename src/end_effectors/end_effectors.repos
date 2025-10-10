@@ -15,3 +15,7 @@ repositories:
     type: git
     url: https://github.com/PickNikRobotics/ros2_epick_gripper.git
     version: main
+  pipettor:
+    type: git
+    url: https://github.com/sixym3/pipettor.git
+    version: main

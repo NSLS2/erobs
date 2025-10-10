@@ -16,4 +16,5 @@ colcon build \
         --symlink-install \
         --executor sequential \
         --cmake-args "-DCMAKE_BUILD_TYPE=$BUILD_TYPE" "-DCMAKE_EXPORT_COMPILE_COMMANDS=On" \
-        -Wall -Wextra -Wpedantic
+        -Wall -Wextra -Wpedantic \
+        --packages-skip epick_moveit_studio epick_config
