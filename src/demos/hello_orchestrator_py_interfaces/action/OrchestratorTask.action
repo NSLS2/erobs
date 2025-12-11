@@ -1,0 +1,12 @@
+# Goal
+string task_json
+---
+# Result
+bool success
+string error_message
+int32 completed_steps
+---
+# Feedback (user-facing progress updates)
+int32 current_step
+int32 total_steps
+string current_action

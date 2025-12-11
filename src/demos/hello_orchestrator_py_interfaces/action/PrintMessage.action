@@ -1,0 +1,8 @@
+# Goal
+string message
+---
+# Result
+bool success
+string error_message
+---
+# Feedback (empty - internal action, not user-facing)
