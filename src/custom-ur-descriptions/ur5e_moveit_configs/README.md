@@ -19,6 +19,11 @@ This directory contains MoveIt configuration packages for UR5e robotic systems w
 - **Robot**: UR5e arm with Zivid camera, tool block, and ePick vacuum gripper
 - **Chain**: UR5e → Zivid Camera → Tool Block → ePick Gripper
 
+### ur_zivid_pipettor_moveit_config
+
+- **Robot**: UR5e arm with Zivid camera, tool block, and pipettor end effector
+- **Chain**: UR5e → Zivid Camera → Tool Block → Pipettor
+
 ## Package Structure
 
 Each MoveIt configuration package follows a standard structure:
@@ -80,6 +85,9 @@ ros2 launch ur_zivid_hande_moveit_config robot_bringup.launch.py
 
 # For ePick vacuum gripper configuration
 ros2 launch ur_zivid_epick_moveit_config robot_bringup.launch.py
+
+# For pipettor configuration
+ros2 launch ur_zivid_pipettor_moveit_config robot_bringup.launch.py
 ```
 
 ### Launch Parameters
@@ -114,9 +122,38 @@ All configurations maintain consistency in:
 - **OMPL Planning**: Consistent planner configurations
 - **Launch Structure**: Standardized launch file patterns
 
+### Payload Configuration
+
+Each configuration sets a specific payload to account for end effector mass:
+
+| Configuration | Total Mass | Components |
+|--------------|------------|------------|
+| **Standalone** | 1.430 kg | Mount (0.17 kg) + Camera (1.26 kg) |
+| **Hand-E** | 2.520 kg | Mount + Camera + Hand-E (1.09 kg) |
+| **ePick** | 2.150 kg | Mount + Camera + ePick (0.72 kg) |
+| **Pipettor** | 1.630 kg | Mount + Camera + Pipettor (0.20 kg) |
+
+Payload is configured automatically at startup via the `/io_and_status_controller/set_payload` service (5-second delay after driver initialization).
+
 ### Robot Naming Convention
 
 Robot name is set dynamically using the `ur_type` parameter (e.g., ur3e, ur5e, ur10e) to match ur_control's behavior. The launch files pass `name:=LaunchConfiguration("ur_type")` to ensure consistency between the `/robot_description` topic (used by action servers and ur_control) and MoveIt's move_group. This enables using the same launch files for any UR robot type.
+
+### Available Named States for MTC
+
+**UR Arm:**
+- `moveit_home`: Shoulder at -90° (horizontal), all other joints at 0°
+
+**Hand-E Gripper:**
+- `hande_open`: Fingers at 25mm (fully open)
+- `hande_closed`: Fingers at 0mm (fully closed)
+
+**ePick Gripper:**
+- `vacuum_on`: Vacuum activated (gripper = 1)
+- `vacuum_off`: Vacuum deactivated (gripper = 0)
+
+**Pipettor:**
+- No predefined gripper states (controlled via `pipette_driver_node`)
 
 ## Integration with Robot Description
 

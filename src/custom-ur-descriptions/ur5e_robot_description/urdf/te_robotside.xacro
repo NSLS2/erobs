@@ -1,14 +1,14 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://ros.org/wiki/xacro" name="wingman_toolchanger_robotside">
 
-  <xacro:macro name="te_robotside" params="parent_link xyz:='0.010 0 0' rpy:='0 0 ${pi/2}'">
+  <xacro:macro name="te_robotside" params="parent_link xyz:='0.010 0 0' rpy:='0 0 ${pi/2}' scale:='0.001' mass:='0.5'">
 
     <link name="te_robotside">
       <visual>
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
           <mesh filename="package://ur5e_robot_description/meshes/tool_exchanger/Tool_block_robotside.stl"
-                scale="0.001 0.001 0.001"/>
+                scale="${scale} ${scale} ${scale}"/>
         </geometry>
         <material name="grey">
           <color rgba="0.5 0.5 0.5 1.0"/>
@@ -18,11 +18,11 @@
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
           <mesh filename="package://ur5e_robot_description/meshes/tool_exchanger/Tool_block_robotside.stl"
-                scale="0.001 0.001 0.001"/>
+                scale="${scale} ${scale} ${scale}"/>
         </geometry>
       </collision>
       <inertial>
-        <mass value="0.5"/>
+        <mass value="${mass}"/>
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <inertia ixx="0.001" ixy="0.0" ixz="0.0"
                  iyy="0.001" iyz="0.0"

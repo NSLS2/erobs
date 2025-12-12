@@ -14,6 +14,7 @@ def generate_launch_description():
 
     ur_type = DeclareLaunchArgument('ur_type', default_value='ur5e')
     robot_ip = DeclareLaunchArgument('robot_ip', default_value='192.168.1.10')
+    use_fake_hardware = DeclareLaunchArgument('use_fake_hardware', default_value='false')
     description_package = DeclareLaunchArgument('description_package', default_value='ur_description')
     description_file = DeclareLaunchArgument('description_file', default_value=os.path.join(get_package_share_directory("ur5e_robot_description"), "urdf", "ur_with_zivid_epick.xacro"))
     controllers_file = DeclareLaunchArgument('controllers_file', default_value=os.path.join(get_package_share_directory("ur_zivid_epick_moveit_config"), "config", "ur_epick_controllers.yaml"))
@@ -21,7 +22,7 @@ def generate_launch_description():
 
     xacro_args = {"name": LaunchConfiguration("ur_type"), "ur_type": LaunchConfiguration("ur_type"), "tf_prefix": "" }
 
-    ## ur_driver 
+    ## ur_driver
     ur_control_launch = IncludeLaunchDescription(
         PythonLaunchDescriptionSource([
             PathJoinSubstitution([FindPackageShare("ur_robot_driver"), "launch", "ur_control.launch.py"])
@@ -29,10 +30,13 @@ def generate_launch_description():
         launch_arguments={
             "ur_type": LaunchConfiguration("ur_type"),
             "robot_ip": LaunchConfiguration("robot_ip"),
+            "use_fake_hardware": LaunchConfiguration("use_fake_hardware"),
             "launch_rviz": "false",
             "description_package": LaunchConfiguration("description_package"),
             "description_file": LaunchConfiguration("description_file"),
             "controllers_file": LaunchConfiguration("controllers_file"),
+            "kinematics_params_file": os.path.join(get_package_share_directory("ur5e_robot_description"), "config", "ur5e_calibration.yaml"),
+            "use_tool_communication": "true",  # Enable to make tool_voltage parameter work
             "tool_voltage": "24",
         }.items()
     )
@@ -92,13 +96,13 @@ def generate_launch_description():
     )
 
     # # Tool Communication Node
-    # tool_communication = Node(
-    #     package="ur_robot_driver",
-    #     executable="tool_communication.py",
-    #     name="tool_communication_node",
-    #     output="screen",
-    #     parameters=[{"robot_ip": LaunchConfiguration("robot_ip")}]
-    # )
+    tool_communication = Node(
+        package="ur_robot_driver",
+        executable="tool_communication.py",
+        name="tool_communication_node",
+        output="screen",
+        parameters=[{"robot_ip": LaunchConfiguration("robot_ip")}]
+    )
 
 
     # Publish TF
@@ -138,10 +142,17 @@ def generate_launch_description():
         ]
     )
 
+    # Delay ur_control_launch to ensure tool_communication creates /tmp/ttyUR first
+    delayed_ur_control_launch = TimerAction(
+        period=1.5,  # Wait 1.5 seconds for tool_communication to create /tmp/ttyUR via socat
+        actions=[ur_control_launch]
+    )
+
     return LaunchDescription([
         ## arguments
         robot_ip,
         ur_type,
+        use_fake_hardware,
         description_package,
         description_file,
         controllers_file,
@@ -149,8 +160,8 @@ def generate_launch_description():
 
 
         ## Nodes
-        # tool_communication,
-        ur_control_launch,
+        tool_communication,  # Start this first to create /tmp/ttyUR
+        delayed_ur_control_launch,  # Then start ur_control after delay
         run_move_group_node,
         rviz_node,
         robot_state_publisher,

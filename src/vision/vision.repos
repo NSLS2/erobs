@@ -1,0 +1,15 @@
+# Vision system repositories
+# See https://github.com/dirk-thomas/vcstool
+#
+# To import these repositories into your workspace:
+#   vcs import src/vision < src/vision/vision.repos
+#
+repositories:
+  zivid-ros:
+    type: git
+    url: https://github.com/zivid/zivid-ros.git
+    version: master
+  zed-ros2-wrapper:
+    type: git
+    url: https://github.com/stereolabs/zed-ros2-wrapper.git
+    version: master

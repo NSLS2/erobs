@@ -1,10 +1,10 @@
 <?xml version="1.0"?>
 <?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
 <package format="3">
-  <name>ur_zivid_epick_moveit_config</name>
+  <name>ur_zivid_pipettor_moveit_config</name>
   <version>0.3.0</version>
   <description>
-     An automatically generated package with all the configuration and launch files for using the ur with the MoveIt Motion Planning Framework
+     MoveIt configuration package for UR5e with Zivid camera and pipettor end effector
   </description>
   <maintainer email="abondada@bnl.gov">abondada</maintainer>
 

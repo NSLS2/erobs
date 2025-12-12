@@ -15,14 +15,20 @@ def generate_launch_description():
 
     ur_type = DeclareLaunchArgument('ur_type', default_value='ur5e')
     robot_ip = DeclareLaunchArgument('robot_ip', default_value='192.168.1.10')
+    use_fake_hardware = DeclareLaunchArgument('use_fake_hardware', default_value='false')
     description_package = DeclareLaunchArgument('description_package', default_value='ur_description')
     description_file = DeclareLaunchArgument('description_file', default_value=os.path.join(get_package_share_directory("ur5e_robot_description"), "urdf", "ur_with_zivid_hande.xacro"))
     controllers_file = DeclareLaunchArgument('controllers_file', default_value=os.path.join(get_package_share_directory("ur_zivid_hande_moveit_config"), "config", "ur_hande_controllers.yaml"))
 
 
-    xacro_args = {"name": LaunchConfiguration("ur_type"), "ur_type": LaunchConfiguration("ur_type"), "tf_prefix": "" }
+    xacro_args = {
+        "name": LaunchConfiguration("ur_type"),
+        "ur_type": LaunchConfiguration("ur_type"),
+        "tf_prefix": "",
+        "socat_ip_address": LaunchConfiguration("robot_ip"),  # For Hand-E gripper communication
+    }
 
-    ## ur_driver 
+    ## ur_driver
     ur_control_launch = IncludeLaunchDescription(
         PythonLaunchDescriptionSource([
             PathJoinSubstitution([FindPackageShare("ur_robot_driver"), "launch", "ur_control.launch.py"])
@@ -30,10 +36,13 @@ def generate_launch_description():
         launch_arguments={
             "ur_type": LaunchConfiguration("ur_type"),
             "robot_ip": LaunchConfiguration("robot_ip"),
+            "use_fake_hardware": LaunchConfiguration("use_fake_hardware"),
             "launch_rviz": "false",
             "description_package": LaunchConfiguration("description_package"),
             "description_file": LaunchConfiguration("description_file"),
             "controllers_file": LaunchConfiguration("controllers_file"),
+            "kinematics_params_file": os.path.join(get_package_share_directory("ur5e_robot_description"), "config", "ur5e_calibration.yaml"),
+            "use_tool_communication": "false",  # hande driver manages socat via create_socat_tty
             "tool_voltage": "24",
         }.items()
     )
@@ -135,9 +144,10 @@ def generate_launch_description():
     )
 
     return LaunchDescription([
-        ## arguments 
+        ## arguments
         robot_ip,
         ur_type,
+        use_fake_hardware,
         description_package,
         description_file,
         controllers_file,

@@ -48,17 +48,13 @@
       model="${zivid_model}"
       field_of_view="false"/>
 
-    <!-- Joint: Arm Mount -> Camera                   -->
-    <!-- CALIBRATION: Adjust xyz/rpy to match setup   -->
+    <!-- Joint: Arm Mount -> Camera Base Link -->
+    <!-- Zivid calibration uses tool0 frame per: https://github.com/zivid/zivid-ros/issues/124 -->
     <joint name="mount_to_camera_joint" type="fixed">
       <parent link="zivid_arm_mount"/>
       <child link="zivid_base_link"/>
-      <!-- for forward mounted camera bracket -->
-            <!-- <origin xyz="0.025 0.062 0.0" rpy="0 -1.5708 -1.5708"/> -->
-
-      <!-- for backward mounted camera bracket -->
-      <origin xyz="0.025 0.062 -0.049" rpy="0 -1.5708 -1.5708"/>
-
+      <origin xyz="0.02803 0.07664 -0.04577"
+              rpy="0.53964 -1.53712 -2.13794"/>
     </joint>
 
   </xacro:macro>
