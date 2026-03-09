@@ -1,19 +1,60 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://ros.org/wiki/xacro" name="zivid_camera_mount">
 
-  <!-- Import official Zivid camera from zivid-ros -->
-  <xacro:include filename="$(find zivid_description)/urdf/macros/zivid_camera.xacro"/>
+  <!--
+    Zivid Camera Mount with Direct Hand-Eye Calibration
+
+    Frame chain:
+      parent_link (tool0) -> zivid_optical_frame (CALIBRATED - point cloud origin)
+      parent_link (tool0) -> zivid_arm_mount -> zivid_base_link (visual mesh only)
+
+    The hand-eye calibration gives us: tool0 -> optical_frame directly.
+    We DON'T use the zivid_camera macro's uncalibrated optical joint.
+  -->
 
   <xacro:macro name="zivid_camera_mount" params="parent_link xyz:='0 0 0' rpy:='0 0 0' zivid_model:='ZIVID_2_PLUS_MR60'">
 
-    <!-- ARM MOUNT LINK -->
+    <!-- ============================================================ -->
+    <!-- CALIBRATED OPTICAL FRAME (for point cloud data)              -->
+    <!-- This is where the Zivid point cloud is referenced            -->
+    <!-- Hand-eye calibration result: tool0 -> zivid_optical_frame    -->
+    <!-- ============================================================ -->
+
+    <link name="zivid_optical_frame"/>
+
+    <joint name="tool0_to_zivid_optical" type="fixed">
+      <parent link="${parent_link}"/>
+      <child link="zivid_optical_frame"/>
+      <!-- Hand-eye calibration: tool0 -> optical_frame -->
+      <!-- Rotation: Euler XYZ extrinsic, radians | Translation: meters -->
+      <!-- Calibration (2026-01-15): Residuals: rot < 0.22°, trans < 0.47mm -->
+      <origin xyz="0.05675 0.10322 0.05489"
+              rpy="-0.00615 0.04362 3.13541"/>
+      <!-- TEST (2026-01-22): Zero roll/pitch - did NOT help Y variance
+      <origin xyz="0.05675 0.10322 0.05489"
+              rpy="0 0 3.14159"/> -->
+      <!-- Calibration (2025-12-17):
+      <origin xyz="0.05659 0.10548 0.05660"
+              rpy="-0.01432 0.04829 3.13430"/> -->
+      <!-- Calibration (2026-01-13) - had offset issues:
+      <origin xyz="0.05646 0.10182 0.05680"
+              rpy="-0.03542 0.04745 3.13222"/> -->
+      <!-- Old calibration (2025-10-09):
+      <origin xyz="0.02803 0.07664 0.0"
+              rpy="0.53964 -1.53712 -2.13794"/> -->
+    </joint>
+
+    <!-- ============================================================ -->
+    <!-- ARM MOUNT (for attaching grippers via tool_block)            -->
+    <!-- ============================================================ -->
+
     <link name="zivid_arm_mount">
       <visual>
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <!-- MOUNT MESH - Updated with custom mount from Zivid -->
-          <mesh filename="package://ur5e_robot_description/meshes/zivid/zivid_custom_mount.dae"
-                scale="1.0 1.0 1.0"/>
+          <!-- Official Zivid On-Arm Mount (from zivid.com/downloads) -->
+          <mesh filename="package://ur5e_robot_description/meshes/zivid/zivid_onarm_mount.stl"
+                scale="0.001 0.001 0.001"/>
         </geometry>
         <material name="mount_dark">
           <color rgba="0.2 0.2 0.2 1.0"/>
@@ -22,8 +63,8 @@
       <collision>
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <mesh filename="package://ur5e_robot_description/meshes/zivid/zivid_custom_mount.dae"
-                scale="1.0 1.0 1.0"/>
+          <mesh filename="package://ur5e_robot_description/meshes/zivid/zivid_onarm_mount.stl"
+                scale="0.001 0.001 0.001"/>
         </geometry>
       </collision>
       <inertial>
@@ -35,26 +76,45 @@
       </inertial>
     </link>
 
-    <!-- Joint: Flange -> Arm Mount -->
     <joint name="zivid_arm_mount_joint" type="fixed">
       <parent link="${parent_link}"/>
       <child link="zivid_arm_mount"/>
       <origin xyz="${xyz}" rpy="${rpy}"/>
     </joint>
 
-    <!-- ZIVID CAMERA (From official zivid-ros)       -->
-    <xacro:zivid_camera
-      prefix="zivid_"
-      model="${zivid_model}"
-      field_of_view="false"/>
+    <!-- ============================================================ -->
+    <!-- CAMERA VISUAL MESH (for RViz visualization)                  -->
+    <!-- Positioned relative to optical frame using inverse offset    -->
+    <!-- ============================================================ -->
 
-    <!-- Joint: Arm Mount -> Camera Base Link -->
-    <!-- Zivid calibration uses tool0 frame per: https://github.com/zivid/zivid-ros/issues/124 -->
-    <joint name="mount_to_camera_joint" type="fixed">
-      <parent link="zivid_arm_mount"/>
+    <link name="zivid_base_link">
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 ${0.5*pi}"/>
+        <geometry>
+          <mesh filename="package://zivid_description/meshes/visual/zivid_2_plus.stl"/>
+        </geometry>
+        <material name="zivid_gray">
+          <color rgba="0.3 0.3 0.3 1.0"/>
+        </material>
+      </visual>
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 ${0.5*pi}"/>
+        <geometry>
+          <mesh filename="package://zivid_description/meshes/collision/zivid_2_plus_convex_hull.stl"/>
+        </geometry>
+      </collision>
+    </link>
+
+    <!-- Position visual mesh relative to optical frame -->
+    <!-- INVERSE of Zivid's factory transform (base_link → optical_frame) -->
+    <!-- Source: zivid_description/urdf/macros/zivid_camera.xacro (ZIVID_2_PLUS_MR60) -->
+    <!-- Forward: xyz=(0.049, 0.03202, 0.0295), rpy=(-90°, 0°, -92.5°) -->
+    <!-- Inverse: T_inv = [R^T | -R^T * t] computed mathematically -->
+    <joint name="optical_to_base_link" type="fixed">
+      <parent link="zivid_optical_frame"/>
       <child link="zivid_base_link"/>
-      <origin xyz="0.02803 0.07664 -0.04577"
-              rpy="0.53964 -1.53712 -2.13794"/>
+      <origin xyz="0.03413 0.02950 -0.04756"
+              rpy="-1.57080 -1.52716 3.14159"/>
     </joint>
 
   </xacro:macro>

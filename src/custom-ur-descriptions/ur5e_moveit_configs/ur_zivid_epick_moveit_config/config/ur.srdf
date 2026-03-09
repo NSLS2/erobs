@@ -28,7 +28,7 @@
         <joint name="shoulder_pan_joint" value="0"/>
         <joint name="wrist_1_joint" value="0"/>
         <joint name="wrist_2_joint" value="0"/>
-        <joint name="wrist_3_joint" value="0"/>
+        <joint name="wrist_3_joint" value="-3.14159"/>
     </group_state>
     <group_state name="vacuum_on" group="epick_gripper">
         <joint name="gripper" value="1"/>

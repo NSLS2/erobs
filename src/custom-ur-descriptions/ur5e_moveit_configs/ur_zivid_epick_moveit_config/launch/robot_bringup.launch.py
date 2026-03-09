@@ -36,7 +36,7 @@ def generate_launch_description():
             "description_file": LaunchConfiguration("description_file"),
             "controllers_file": LaunchConfiguration("controllers_file"),
             "kinematics_params_file": os.path.join(get_package_share_directory("ur5e_robot_description"), "config", "ur5e_calibration.yaml"),
-            "use_tool_communication": "true",  # Enable to make tool_voltage parameter work
+            "use_tool_communication": "false",  # We launch our own tool_communication node with delay
             "tool_voltage": "24",
         }.items()
     )
@@ -51,7 +51,7 @@ def generate_launch_description():
         .planning_scene_monitor(
             publish_robot_description=True, publish_robot_description_semantic=True
         )
-        .planning_pipelines(pipelines=["ompl"])
+        .planning_pipelines(pipelines=["ompl", "pilz_industrial_motion_planner"])
         .to_moveit_configs()
     )
     # Load  ExecuteTaskSolutionCapability so we can execute found solutions in simulation

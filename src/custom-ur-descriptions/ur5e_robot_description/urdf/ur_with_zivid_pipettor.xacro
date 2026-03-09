@@ -61,7 +61,7 @@
   <xacro:arg name="mock_hardware" default="true" />
 
   <!-- initial position for simulations (Fake Hardware, Gazebo, Ignition) -->
-  <xacro:arg name="initial_positions_file" default="$(find ur_description)/config/initial_positions.yaml"/>
+  <xacro:arg name="initial_positions_file" default="$(find ur_zivid_pipettor_moveit_config)/config/initial_positions.yaml"/>
   <xacro:property name="initial_positions_file" default="$(arg initial_positions_file)"/>
 
   <!-- create link fixed to the "map" -->
@@ -114,7 +114,7 @@
   <xacro:zivid_camera_mount
     parent_link="$(arg tf_prefix)tool0"
     xyz="0 0 0.005"
-    rpy="0 0 3.14159"
+    rpy="0 0 0"
     zivid_model="ZIVID_2_PLUS_MR60"/>
 
   <!-- Tool block attached to the Zivid arm mount (not the camera) -->
