@@ -5,6 +5,7 @@ planner_configs:
   RRTConnectkConfigDefault:
     type: geometric::RRTConnect
     range: 0.0
+    goal_bias: 0.15  # Higher = more direct paths (default 0.05)
     # goal_tolerance: 0.01
     # num_planning_attempts: 10
     # planning_time: 10.0

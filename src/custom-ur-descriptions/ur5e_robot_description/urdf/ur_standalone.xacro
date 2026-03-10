@@ -57,7 +57,7 @@
    <xacro:arg name="mock_hardware" default="true" />
 
    <!-- initial position for simulations (Fake Hardware, Gazebo, Ignition) -->
-   <xacro:arg name="initial_positions_file" default="$(find ur_description)/config/initial_positions.yaml"/>
+   <xacro:arg name="initial_positions_file" default="$(find ur_standalone_moveit_config)/config/initial_positions.yaml"/>
 
    <!-- convert to property to use substitution in function -->
    <xacro:property name="initial_positions_file" default="$(arg initial_positions_file)"/>
@@ -112,7 +112,7 @@
   <xacro:zivid_camera_mount
     parent_link="$(arg tf_prefix)tool0"
     xyz="0 0 0.005"
-    rpy="0 0 3.14159"
+    rpy="0 0 0"
     zivid_model="ZIVID_2_PLUS_MR60"/>
 
   <!-- Tool exchanger robotside attached to arm mount (not camera) -->
