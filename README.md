@@ -9,7 +9,7 @@ We build modular, extensible robotics stacks that can accommodate a growing rang
 
 ### Core Robotics
 - **[ROS 2 Humble](https://docs.ros.org/en/humble/)** — OSRF's current LTS release, providing the backbone for our robot communication, lifecycle management, and tooling.
-- **[MoveIt 2](https://moveit.picknik.ai/)** — for motion planning, kinematics, and trajectory execution
+- **[MoveIt 2](https://moveit.picknik.ai/)** — for motion planning, kinematics, and trajectory execution.
 - **NVIDIA Ecosystem** — GPU-accelerated perception, Isaac ROS integration for real-time robotics simulation and workloads bridging the gap b/w Real world and simulated world.
 
 
@@ -26,8 +26,8 @@ We currently support and are actively developing integrations for:
 We plan to expand this list significantly as the division grows.
 
 ### Vision & LLMs Pipelines
-- **Vision-based pipelines** — camera-driven perception for sample detection, localization, and error recovery
-- **LLM-based pipelines** — natural language interfaces and intelligent decision-making layers for higher-level task orchestration
+- **Vision-based pipelines** — camera-driven perception for sample detection, localization, and error recovery.
+- **LLM-based pipelines** — natural language interfaces and intelligent decision-making layers for higher-level task orchestration.
 
 ---
 
