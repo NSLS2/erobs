@@ -62,14 +62,14 @@ The NSLS-II Robotics Division is committed to staying at the forefront of applie
 | UR robot integration | ✅ Active |
 | Stäubli ros integration | 🔄 In progress |
 | EPICS sample exchanger | 🔄 In progress |
-| Bluesky API layer | 🚧 WIP |
+| Bluesky API layer |  🔄 WIP |
 | Vision pipelines | 🔄 In progress |
 | LLM orchestration | 🧪 Experimental |
 
 
 ---
 
-## Contents
+## Repo structure
 
 The majority of the contents in this repository are ROS2 packages with associated continer image manifests.
 Each manifest in the [docker](./docker) directory is a container image that can be used to run a specific application in the system.
