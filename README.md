@@ -1,6 +1,6 @@
 # Beamline Robotics Framework
 
-This is the central repository for the NSLS-II Robotics Division's work on integrating industrial robots and automated sample exchangers into beamline operations. Our goal is to reduce the manual burden on users during sample exchange, letting them focus on what matters most - their research.
+This is the central repository for the NSLS-II Robotics division's work on integrating industrial robots and automated sample exchangers into beamline operations. Our goal is to reduce the manual burden on users during sample exchange, letting them focus on what matters most - their research.
 We build modular, extensible robotics stacks that can accommodate a growing range of hardware, control systems, and AI-driven pipelines.
 
 ---
@@ -22,8 +22,6 @@ We currently support and are actively developing integrations for:
 | **Universal Robots (UR)** | Collaborative robotic arm |
 | **Stäubli** | Industrial robotic arm |
 | **EPICS-based sample exchangers** | Automated sample handling |
-
-We plan to expand this list significantly as the division grows.
 
 We plan to expand this list significantly as the division grows.
 
