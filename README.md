@@ -46,9 +46,8 @@ We plan to expand this list significantly as the division grows.
 
 At NSLS-II, beamline hardware is controlled through:
 
-- **[EPICS](https://epics-controls.org/)** — the underlying control system for hardware I/O
-- **[CSS (Control System Studio)](https://controlsystemstudio.org/)** — operator displays and monitoring
-- **[Bluesky](https://blueskyproject.io/)** — a Python-based data acquisition framework used for orchestrating experiments
+- **[EPICS](https://epics-controls.org/)** — the underlying control system for hardware I/O and interacting with instruments and controls at NSLS-II.
+- **[Bluesky](https://blueskyproject.io/)** — a collection of python libraries for users to run their experiments.
 
 We expose robot control through a **Bluesky-compatible API framework** *(currently in development)* that allows users to command sample exchange operations directly from their experiment scripts — without needing to interact with low-level robot interfaces manually. This dramatically reduces setup time and operator overhead per beamline visit.
 
