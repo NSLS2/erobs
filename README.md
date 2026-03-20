@@ -1,17 +1,28 @@
-# Beamline Robotics Framework
+# beamline-robotics-framework
 
-This is the central repository for the NSLS-II Robotics division's work on integrating industrial robots and automated sample exchangers into beamline operations. Our goal is to reduce the manual burden on users during sample exchange, letting them focus on what matters most - their research.
+> **Robotics infrastructure for automated sample exchange at NSLS-II** — built for extensibility, designed for science.
+
+---
+
+## Overview
+
+`beamline-robotics-framework` is the central repository for the NSLS-II Robotics Division's work on integrating industrial robots and automated sample exchangers into beamline operations. Our goal is to reduce the manual burden on users during sample exchange, letting them focus on what matters most — their research.
+
 We build modular, extensible robotics stacks that can accommodate a growing range of hardware, control systems, and AI-driven pipelines.
+
+<p align="center">
+  <img src="docs/media/rb1.gif" alt="Robot demo 1" width="49%"/>
+  <img src="docs/media/rb2.gif" alt="Robot demo 2" width="49%"/>
+</p>
 
 ---
 
 ## Technology Stack
 
 ### Core Robotics
-- **[ROS 2 Humble](https://docs.ros.org/en/humble/)** — OSRF's current LTS release, providing the backbone for our robot communication, lifecycle management, and tooling.
-- **[MoveIt 2](https://moveit.picknik.ai/)** — for motion planning, kinematics, and trajectory execution.
-- **NVIDIA Ecosystem** — GPU-accelerated perception, Isaac ROS integration for real-time robotics simulation and workloads bridging the gap b/w Real world and simulated world.
-
+- **[ROS 2 Humble](https://docs.ros.org/en/humble/)** — our current LTS release, providing the backbone for robot communication, lifecycle management, and tooling
+- **[MoveIt 2](https://moveit.picknik.ai/)** — motion planning, kinematics, and trajectory execution
+- **NVIDIA Ecosystem** — GPU-accelerated perception, Isaac ROS integration for real-time robotics workloads
 
 ### Hardware Integrations
 
@@ -25,9 +36,9 @@ We currently support and are actively developing integrations for:
 
 We plan to expand this list significantly as the division grows.
 
-### Vision & LLMs Pipelines
-- **Vision-based pipelines** — camera-driven perception for sample detection, localization, and error recovery.
-- **LLM-based pipelines** — natural language interfaces and intelligent decision-making layers for higher-level task orchestration.
+### Vision & LLM based pipelines
+- **Vision-based pipelines** — camera-driven perception for sample detection, localization, and error recovery
+- **LLM-based pipelines** — natural language interfaces and intelligent decision-making layers for higher-level task orchestration
 
 ---
 
@@ -35,10 +46,11 @@ We plan to expand this list significantly as the division grows.
 
 At NSLS-II, beamline hardware is controlled through:
 
-- **[EPICS](https://epics-controls.org/)** — the underlying distributed control system for hardware I/O and interacting with instruments at NSLS-II. 
-- **[Bluesky](https://blueskyproject.io/)** — a collection of python libraries used for running experiments and analysis. 
+- **[EPICS](https://epics-controls.org/)** — the underlying control system for hardware I/O
+- **[CSS (Control System Studio)](https://controlsystemstudio.org/)** — operator displays and monitoring
+- **[Bluesky](https://blueskyproject.io/)** — a Python-based data acquisition framework used for orchestrating experiments
 
-We expose robot control through a **Bluesky-compatible API framework** *(currently in development)* that allows users to command sample exchange operations directly from their experiment scripts without needing to interact with low-level robot interfaces manually. This dramatically reduces setup time and operator overhead per beamline visit.
+We expose robot control through a **Bluesky-compatible API framework** *(currently in development)* that allows users to command sample exchange operations directly from their experiment scripts — without needing to interact with low-level robot interfaces manually. This dramatically reduces setup time and operator overhead per beamline visit.
 
 ---
 
@@ -47,25 +59,9 @@ We expose robot control through a **Bluesky-compatible API framework** *(current
 The NSLS-II Robotics Division is committed to staying at the forefront of applied robotics in synchrotron science. Our roadmap includes:
 
 - **Reducing sample exchange time** — streamlining the most time-consuming part of a beamline experiment
-- **Expanding robot and gripper support** — modular drivers for new hardware with minimal integration overhead.
-- **Autonomous experiment pipelines** — moving toward fully automated, closed-loop sample handling where the robot adapts to experiment feedback in real time.
-- **Facility-wide standards** — building reusable components that can be adopted across beamlines at NSLS-II and potentially shared with the broader synchrotron community.
-
----
-
-
-## Status
-
-| Component | Status |
-|---|---|
-| ROS 2 Humble base stack | ✅ Active |
-| UR robot integration | ✅ Active |
-| Stäubli ros integration | 🔄 In progress |
-| EPICS sample exchanger | 🔄 In progress |
-| Bluesky API layer |  🔄 WIP |
-| Vision pipelines | 🔄 In progress |
-| LLM orchestration | 🧪 Experimental |
-
+- **Expanding robot and gripper support** — modular drivers for new hardware with minimal integration overhead
+- **Autonomous experiment pipelines** — moving toward fully automated, closed-loop sample handling where the robot adapts to experiment feedback in real time
+- **Facility-wide standards** — building reusable components that can be adopted across beamlines at NSLS-II and potentially shared with the broader synchrotron community
 
 ---
 
@@ -96,13 +92,17 @@ Each manifest in the [docker](./docker) directory is a container image that can 
   - [hello_moveit_interfaces](./src/demos/hello_moveit_interfaces): ROS2 package for defining the interfaces used in the hello_moveit package.
 
 
-### Docker Contents
+## Training & Onboarding
+
+New to ROS 2 or robotics? Check out [`ros2_101.md`](ros2_101.md) : A structured 4-week guide covering ROS 2 fundamentals, workspace setup, simulation, MoveIt 2, and Bluesky integration, tailored specifically for getting up to speed with this stack.
+
+## Docker Contents
 
 We use Podman throughout this work, but have named the container images with Docker in mind.
 
 - [erobs-common-img](./docker/erobs-common-img): Common container image for running the majority of applications herein, including: UR robot driver, gripper service, MoveIt service, and the pdf_beamtime_server (primary `Action` server).
 - [bsui](./docker/bsui): Container image for running the Bluesky User Interface with mounts at NSLS-II.
-- [azure-kinect](./docker/azure-kinect): Container image for running the Azure Kinect ROS2 driver.
+- [azure-kinect](./docker/azure-kinect): Container image for running the Azure Kinect ROS2 driver. 
 - Other auxiliary container images that are not used in the main application, but are useful for development and testing:
   - [ursim](./docker/ursim): Container image for running a simulated UR3e robot arm with a teach pendant.
   - [ur-driver](./docker/ur-driver): Container image for running the UR3e robot arm ROS2 driver.
@@ -111,12 +111,12 @@ We use Podman throughout this work, but have named the container images with Doc
   - [erobs-hello-moveit](./docker/erobs-hello-moveit): Container image for running a simple action with the UR3e robot arm.
 
 
-### Hello Moveit
+## Hello Moveit
 
 Demonstrations using a combination of the MoveIt tutorials and some UR specific tools, to show how to make simple actions
 that can deploy MoveIt using the MoveGroupInterface.
 
-### Bluesky ROS
+## Bluesky ROS
 
 Ongoing developments of integrating ROS2 and Bluesky. Currently targeted towards integrating Ophyd Objects as ROS2 Action Clients.
 
