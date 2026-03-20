@@ -25,7 +25,7 @@ We currently support and are actively developing integrations for:
 
 We plan to expand this list significantly as the division grows.
 
-### Vision & AI Pipelines
+### Vision & LLMs Pipelines
 - **Vision-based pipelines** — camera-driven perception for sample detection, localization, and error recovery
 - **LLM-based pipelines** — natural language interfaces and intelligent decision-making layers for higher-level task orchestration
 
