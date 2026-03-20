@@ -84,5 +84,35 @@
         ".devcontainer/devcontainer.json"
     ],
     "cmake.configureOnOpen": false,
-    "cmake.sourceDirectory": "/workspaces/erobs/src/hello_moveit"
+    "cmake.sourceDirectory": "/workspaces/erobs/src/hello_moveit",
+    "Lua.workspace.preloadFileSize": 2000,
+    "Lua.workspace.ignoreDir": [],
+    "Lua.diagnostics.libraryFiles": "Disable",
+    "Lua.runtime.version": "Lua 5.1",
+    "Lua.runtime.builtin": {
+        "basic": "enable",
+        "builtin": "enable",
+        "table": "enable",
+        "bit": "disable",
+        "bit32": "disable",
+        "coroutine": "disable",
+        "debug": "disable",
+        "ffi": "disable",
+        "io": "disable",
+        "jit": "disable",
+        "jit.profile": "disable",
+        "jit.util": "disable",
+        "math": "disable",
+        "os": "disable",
+        "package": "disable",
+        "string": "disable",
+        "string.buffer": "disable",
+        "table.clear": "disable",
+        "table.new": "disable",
+        "utf8": "disable"
+    },
+    "Lua.workspace.library": [
+        "c:\\Users\\kpatel2\\.vscode\\extensions\\tektronix.tsp-toolkit-1.4.1-win32-x64\\node_modules\\@tektronix\\keithley_instrument_libraries\\keithley_instrument_libraries\\tsp-lua-5.0",
+        "c:\\Users\\kpatel2\\.vscode\\extensions\\tektronix.tsp-toolkit-1.4.1-win32-x64\\node_modules\\@tektronix\\keithley_instrument_libraries\\keithley_instrument_libraries\\nodes_definitions"
+    ]
 }

@@ -1,6 +1,75 @@
-# Extensible Robotic Beamline Scientist
+# Beamline Robotics Framework
 
-Project repository for building extensible robotic beamline scientists at NSLS-II.
+This is the central repository for the NSLS-II Robotics Division's work on integrating industrial robots and automated sample exchangers into beamline operations. Our goal is to reduce the manual burden on users during sample exchange, letting them focus on what matters most - their research.
+We build modular, extensible robotics stacks that can accommodate a growing range of hardware, control systems, and AI-driven pipelines.
+
+---
+
+## Technology Stack
+
+### Core Robotics
+- **[ROS 2 Humble](https://docs.ros.org/en/humble/)** — OSRF's current LTS release, providing the backbone for our robot communication, lifecycle management, and tooling.
+- **[MoveIt 2](https://moveit.picknik.ai/)** — for motion planning, kinematics, and trajectory execution
+- **NVIDIA Ecosystem** — GPU-accelerated perception, Isaac ROS integration for real-time robotics simulation and workloads bridging the gap b/w Real world and simulated world.
+
+
+### Hardware Integrations
+
+We currently support and are actively developing integrations for:
+
+| Hardware | Type |
+|---|---|
+| **Universal Robots (UR)** | Collaborative robotic arm |
+| **Stäubli** | Industrial robotic arm |
+| **EPICS-based sample exchangers** | Automated sample handling |
+
+We plan to expand this list significantly as the division grows.
+
+We plan to expand this list significantly as the division grows.
+
+### Vision & AI Pipelines
+- **Vision-based pipelines** — camera-driven perception for sample detection, localization, and error recovery
+- **LLM-based pipelines** — natural language interfaces and intelligent decision-making layers for higher-level task orchestration
+
+---
+
+## NSLS-II Control System Integration
+
+At NSLS-II, beamline hardware is controlled through:
+
+- **[EPICS](https://epics-controls.org/)** — the underlying distributed control system for hardware I/O and interacting with instruments at NSLS-II. 
+- **[Bluesky](https://blueskyproject.io/)** — a collection of python libraries used for running experiments and analysis. 
+
+We expose robot control through a **Bluesky-compatible API framework** *(currently in development)* that allows users to command sample exchange operations directly from their experiment scripts without needing to interact with low-level robot interfaces manually. This dramatically reduces setup time and operator overhead per beamline visit.
+
+---
+
+## Long-Term Vision
+
+The NSLS-II Robotics Division is committed to staying at the forefront of applied robotics in synchrotron science. Our roadmap includes:
+
+- **Reducing sample exchange time** — streamlining the most time-consuming part of a beamline experiment
+- **Expanding robot and gripper support** — modular drivers for new hardware with minimal integration overhead.
+- **Autonomous experiment pipelines** — moving toward fully automated, closed-loop sample handling where the robot adapts to experiment feedback in real time.
+- **Facility-wide standards** — building reusable components that can be adopted across beamlines at NSLS-II and potentially shared with the broader synchrotron community.
+
+---
+
+
+## Status
+
+| Component | Status |
+|---|---|
+| ROS 2 Humble base stack | ✅ Active |
+| UR robot integration | ✅ Active |
+| Stäubli ros integration | 🔄 In progress |
+| EPICS sample exchanger | 🔄 In progress |
+| Bluesky API layer | 🚧 WIP |
+| Vision pipelines | 🔄 In progress |
+| LLM orchestration | 🧪 Experimental |
+
+
+---
 
 ## Contents
 
