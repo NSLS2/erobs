@@ -1,12 +1,12 @@
-# beamline-robotics-framework
+# Beamline robotics framework [Erobs]
 
-> **Robotics infrastructure for automated sample exchange at NSLS-II** — built for extensibility, designed for science.
+> **Robotics infrastructure for automated sample exchange at NSLS-II beamlines** 
 
 ---
 
 ## Overview
 
-`beamline-robotics-framework` is the central repository for the NSLS-II Robotics Division's work on integrating industrial robots and automated sample exchangers into beamline operations. Our goal is to reduce the manual burden on users during sample exchange, letting them focus on what matters most — their research.
+`erobs` is the central repository for the NSLS-II Robotics Division's work on integrating industrial robots and automated sample exchangers into beamline operations. Our goal is to reduce the manual burden on users during sample exchange, letting them focus on what matters most — their research.
 
 We build modular, extensible robotics stacks that can accommodate a growing range of hardware, control systems, and AI-driven pipelines.
 
