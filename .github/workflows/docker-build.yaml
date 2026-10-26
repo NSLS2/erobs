@@ -1,5 +1,5 @@
 name: Build and push Erobs Docker image
-# Registry: ghcr.io/<repo owner>/erobs (ghcr.io/bondada-a/erobs upstream)
+# Registry: ghcr.io/<repo owner>/erobs-jazzy-runtime (ghcr.io/bondada-a/erobs-jazzy-runtime upstream)
 # Dockerfile: docker/jazzy_runtime/Dockerfile
 
 on:
@@ -46,5 +46,5 @@ jobs:
           file: docker/jazzy_runtime/Dockerfile
           push: ${{ github.event_name != 'pull_request' }}
           tags: |
-            ghcr.io/${{ github.repository_owner }}/erobs:latest
-            ghcr.io/${{ github.repository_owner }}/erobs:${{ github.sha }}
+            ghcr.io/${{ github.repository_owner }}/erobs-jazzy-runtime:latest
+            ghcr.io/${{ github.repository_owner }}/erobs-jazzy-runtime:${{ github.sha }}
