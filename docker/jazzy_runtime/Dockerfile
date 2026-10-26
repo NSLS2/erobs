@@ -1,4 +1,4 @@
-FROM osrf/ros:jazzy-desktop-full
+FROM docker.io/osrf/ros:jazzy-desktop-full
 
 # Install Zivid SDK 2.17.2 for Ubuntu 24.04 (Noble)
 RUN apt-get update && apt-get install -y --no-install-recommends wget && \
@@ -15,7 +15,8 @@ WORKDIR /root/ws/erobs
 COPY src/ src/
 COPY utils/ utils/
 # Import driver repos and install ROS dependencies.
-RUN bash utils/setup.sh && \
+RUN chmod +x utils/setup.sh utils/start_mcp_robot_stack.sh && \
+    bash utils/setup.sh && \
     rm -rf /var/lib/apt/lists/*
 
 RUN . /opt/ros/${ROS_DISTRO}/setup.sh && \
@@ -24,7 +25,7 @@ RUN . /opt/ros/${ROS_DISTRO}/setup.sh && \
 ENV RMW_IMPLEMENTATION=rmw_fastrtps_cpp
 ENV ROS_DOMAIN_ID=0
 
-# Source workspace in all shells (docker exec, interactive, etc.)
+# Source workspace in all shells (podman exec, interactive, etc.)
 RUN echo "source /root/ws/erobs/install/setup.bash" >> /root/.bashrc
 
 ENTRYPOINT ["/root/ws/erobs/utils/start_mcp_robot_stack.sh"]
