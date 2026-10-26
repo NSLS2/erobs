@@ -1,0 +1,50 @@
+name: Build and push Erobs Docker image
+# Registry: ghcr.io/<repo owner>/erobs (ghcr.io/bondada-a/erobs upstream)
+# Dockerfile: docker/jazzy_runtime/Dockerfile
+
+on:
+  push:
+    branches: ["pr-ansible"]
+  pull_request:
+    branches: ["pr-ansible"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  packages: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      # The image is ~7 GB; the default runner doesn't have enough free disk to build it.
+      - name: Free disk space
+        run: |
+          sudo rm -rf /usr/share/dotnet /usr/local/lib/android /opt/ghc /opt/hostedtoolcache/CodeQL
+          sudo docker image prune -af
+          df -h /
+
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Log in to ghcr.io
+        if: github.event_name != 'pull_request'
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      # Pull requests only check that the image builds; pushes publish it.
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: docker/jazzy_runtime/Dockerfile
+          push: ${{ github.event_name != 'pull_request' }}
+          tags: |
+            ghcr.io/${{ github.repository_owner }}/erobs:latest
+            ghcr.io/${{ github.repository_owner }}/erobs:${{ github.sha }}
