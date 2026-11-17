@@ -10,6 +10,15 @@ RUN apt-get update && apt-get install -y --no-install-recommends wget && \
     apt-get install -y --no-install-recommends /tmp/zivid/*.deb && \
     rm -rf /tmp/zivid /var/lib/apt/lists/*
 
+#install basic git , vim , nano and other tools
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    git \
+    vim \
+    nano \
+    curl \
+    build-essential \
+    && rm -rf /var/lib/apt/lists/*
+
 WORKDIR /root/ws/erobs
 
 COPY src/ src/
@@ -23,7 +32,7 @@ RUN . /opt/ros/${ROS_DISTRO}/setup.sh && \
     colcon build --cmake-args -DCMAKE_BUILD_TYPE=Release
 
 ENV RMW_IMPLEMENTATION=rmw_fastrtps_cpp
-ENV ROS_DOMAIN_ID=0
+ENV ROS_DOMAIN_ID=0  
 
 # Source workspace in all shells (podman exec, interactive, etc.)
 RUN echo "source /root/ws/erobs/install/setup.bash" >> /root/.bashrc
