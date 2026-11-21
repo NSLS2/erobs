@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
+<package format="3">
+  <name>onrobot_2fg7_driver</name>
+  <version>0.1.0</version>
+  <description>ROS2 driver for OnRobot 2FG7 parallel gripper via Modbus RTU.</description>
+  <maintainer email="abondada@bnl.gov">Aditya Bondada</maintainer>
+  <license>BSD-3-Clause</license>
+
+  <buildtool_depend>ament_cmake</buildtool_depend>
+  <buildtool_depend>ament_cmake_python</buildtool_depend>
+
+  <exec_depend>rclpy</exec_depend>
+  <exec_depend>control_msgs</exec_depend>
+  <exec_depend>sensor_msgs</exec_depend>
+  <exec_depend>launch</exec_depend>
+  <exec_depend>launch_ros</exec_depend>
+  <exec_depend>python3-pymodbus</exec_depend>
+  <!-- pymodbus's serial client needs pyserial (an optional extra on Ubuntu) -->
+  <exec_depend>python3-serial</exec_depend>
+
+  <export>
+    <build_type>ament_cmake</build_type>
+  </export>
+</package>

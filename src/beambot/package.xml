@@ -1,0 +1,71 @@
+<?xml version="1.0"?>
+<?xml-model href="http://download.ros.org/schema/package_format3.xsd"
+            schematypens="http://www.w3.org/2001/XMLSchema"?>
+<package format="3">
+  <name>beambot</name>
+  <version>0.1.0</version>
+  <description>Beambot: robotic sample handling framework for synchrotron beamlines</description>
+  <maintainer email="abondada@bnl.gov">abondada</maintainer>
+  <license>BSD-3-Clause</license>
+
+  <buildtool_depend>ament_cmake</buildtool_depend>
+  <buildtool_depend>ament_cmake_python</buildtool_depend>
+
+  <!-- Action interfaces -->
+  <exec_depend>beambot_interfaces</exec_depend>
+
+  <!-- ROS 2 core -->
+  <exec_depend>rclpy</exec_depend>
+  <exec_depend>ament_index_python</exec_depend>
+  <exec_depend>python3-yaml</exec_depend>
+  <exec_depend>launch</exec_depend>
+  <exec_depend>launch_ros</exec_depend>
+  <!-- ros2 launch / ros2 param CLIs used by the MoveIt lifecycle manager and MCP server -->
+  <exec_depend>ros2launch</exec_depend>
+  <exec_depend>ros2param</exec_depend>
+
+  <!-- MoveIt Task Constructor and the planners its pipelines load -->
+  <exec_depend>moveit_task_constructor_core</exec_depend>
+  <exec_depend>moveit_task_constructor_msgs</exec_depend>
+  <exec_depend>py_binding_tools</exec_depend>
+  <exec_depend>moveit_planners_ompl</exec_depend>
+  <exec_depend>pilz_industrial_motion_planner</exec_depend>
+
+  <!-- Coordinate transforms -->
+  <exec_depend>tf2_ros_py</exec_depend>
+  <exec_depend>tf2_geometry_msgs</exec_depend>
+  <exec_depend>tf_transformations</exec_depend>
+
+  <!-- Image handling (camera backends, perception, MCP server) -->
+  <exec_depend>cv_bridge</exec_depend>
+  <exec_depend>python3-opencv</exec_depend>
+  <exec_depend>python3-numpy</exec_depend>
+
+  <!-- MCP point-selector GUI -->
+  <exec_depend>python3-pil</exec_depend>
+  <exec_depend>python3-pil-imagetk</exec_depend>
+  <exec_depend>python3-tk</exec_depend>
+
+  <!-- ROS WebSocket bridge for MCP -->
+  <exec_depend>rosbridge_server</exec_depend>
+
+  <!-- Octomap generation and planning-scene integration -->
+  <exec_depend>octomap_server</exec_depend>
+  <exec_depend>octomap_msgs</exec_depend>
+
+  <!-- ROS messages and services -->
+  <exec_depend>action_msgs</exec_depend>
+  <exec_depend>builtin_interfaces</exec_depend>
+  <exec_depend>geometry_msgs</exec_depend>
+  <exec_depend>shape_msgs</exec_depend>
+  <exec_depend>moveit_msgs</exec_depend>
+  <exec_depend>std_srvs</exec_depend>
+  <exec_depend>sensor_msgs</exec_depend>
+  <exec_depend>sensor_msgs_py</exec_depend>
+  <exec_depend>std_msgs</exec_depend>
+  <exec_depend>ur_msgs</exec_depend>
+
+  <export>
+    <build_type>ament_cmake</build_type>
+  </export>
+</package>

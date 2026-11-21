@@ -1,0 +1,90 @@
+<?xml version="1.0" ?>
+<!-- ePick vacuum gripper -->
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+    <group name="epick_gripper">
+        <link name="te_toolside"/>
+        <link name="te_coupling"/>
+        <link name="epick_base_link"/>
+        <link name="epick_body"/>
+        <link name="epick_extension"/>
+        <link name="epick_suction_cup"/>
+        <link name="epick_tip"/>
+        <link name="epick_tcp"/>
+        <link name="epick_vacuum_state"/>
+    </group>
+
+    <group_state name="vacuum_on" group="epick_gripper">
+        <joint name="gripper" value="1"/>
+    </group_state>
+    <group_state name="vacuum_off" group="epick_gripper">
+        <joint name="gripper" value="0"/>
+    </group_state>
+
+    <end_effector name="epick_gripper" parent_link="flange" group="epick_gripper"/>
+
+    <!-- Tool-changer coupling (W-010-B) collision rules -->
+    <disable_collisions link1="te_coupling" link2="te_toolside" reason="Adjacent"/>
+    <disable_collisions link1="te_coupling" link2="epick_base_link" reason="Adjacent"/>
+    <disable_collisions link1="te_coupling" link2="epick_body" reason="Adjacent"/>
+    <disable_collisions link1="te_coupling" link2="te_robotside" reason="Never"/>
+    <disable_collisions link1="te_coupling" link2="wrist_extension" reason="Never"/>
+    <disable_collisions link1="te_coupling" link2="wrist_1_link" reason="Never"/>
+    <disable_collisions link1="te_coupling" link2="wrist_2_link" reason="Never"/>
+    <disable_collisions link1="te_coupling" link2="wrist_3_link" reason="Never"/>
+    <disable_collisions link1="te_coupling" link2="zivid_arm_mount" reason="Never"/>
+    <disable_collisions link1="te_coupling" link2="zivid_base_link" reason="Never"/>
+    <disable_collisions link1="te_coupling" link2="epick_extension" reason="Never"/>
+    <disable_collisions link1="te_coupling" link2="epick_suction_cup" reason="Never"/>
+
+    <!-- ePick collision rules -->
+    <disable_collisions link1="epick_body" link2="epick_extension" reason="Adjacent"/>
+    <disable_collisions link1="epick_body" link2="epick_suction_cup" reason="Never"/>
+    <disable_collisions link1="epick_body" link2="te_toolside" reason="Adjacent"/>
+    <disable_collisions link1="epick_body" link2="te_robotside" reason="Never"/>
+    <disable_collisions link1="epick_body" link2="wrist_extension" reason="Never"/>
+    <disable_collisions link1="epick_extension" link2="epick_suction_cup" reason="Adjacent"/>
+    <disable_collisions link1="epick_extension" link2="te_toolside" reason="Never"/>
+    <disable_collisions link1="epick_extension" link2="wrist_1_link" reason="Never"/>
+    <disable_collisions link1="epick_extension" link2="wrist_2_link" reason="Never"/>
+    <disable_collisions link1="epick_extension" link2="wrist_3_link" reason="Never"/>
+    <disable_collisions link1="epick_extension" link2="zivid_arm_mount" reason="Never"/>
+    <disable_collisions link1="epick_extension" link2="zivid_base_link" reason="Never"/>
+    <disable_collisions link1="epick_body" link2="wrist_1_link" reason="Never"/>
+    <disable_collisions link1="epick_body" link2="wrist_2_link" reason="Never"/>
+    <disable_collisions link1="epick_body" link2="wrist_3_link" reason="Never"/>
+    <disable_collisions link1="epick_body" link2="zivid_arm_mount" reason="Never"/>
+    <disable_collisions link1="epick_body" link2="zivid_base_link" reason="Never"/>
+    <disable_collisions link1="epick_suction_cup" link2="te_toolside" reason="Never"/>
+    <disable_collisions link1="epick_suction_cup" link2="wrist_1_link" reason="Never"/>
+    <disable_collisions link1="epick_suction_cup" link2="wrist_2_link" reason="Never"/>
+    <disable_collisions link1="epick_suction_cup" link2="wrist_3_link" reason="Never"/>
+    <disable_collisions link1="epick_suction_cup" link2="zivid_arm_mount" reason="Never"/>
+    <disable_collisions link1="epick_suction_cup" link2="zivid_base_link" reason="Never"/>
+
+    <!-- Wrist extension + tool exchanger + camera collision rules -->
+    <disable_collisions link1="wrist_extension" link2="wrist_1_link" reason="Never"/>
+    <disable_collisions link1="wrist_extension" link2="wrist_2_link" reason="Never"/>
+    <disable_collisions link1="wrist_extension" link2="wrist_3_link" reason="Never"/>
+    <disable_collisions link1="wrist_extension" link2="flange" reason="Adjacent"/>
+    <disable_collisions link1="wrist_extension" link2="zivid_arm_mount" reason="Adjacent"/>
+    <disable_collisions link1="wrist_extension" link2="zivid_base_link" reason="Never"/>
+    <disable_collisions link1="te_robotside" link2="wrist_extension" reason="Adjacent"/>
+    <disable_collisions link1="te_robotside" link2="wrist_1_link" reason="Never"/>
+    <disable_collisions link1="te_robotside" link2="wrist_2_link" reason="Never"/>
+    <disable_collisions link1="te_robotside" link2="wrist_3_link" reason="Never"/>
+    <disable_collisions link1="te_robotside" link2="zivid_arm_mount" reason="Never"/>
+    <disable_collisions link1="te_robotside" link2="zivid_base_link" reason="Never"/>
+    <disable_collisions link1="te_toolside" link2="te_robotside" reason="Adjacent"/>
+    <disable_collisions link1="te_toolside" link2="wrist_extension" reason="Never"/>
+    <disable_collisions link1="te_toolside" link2="wrist_1_link" reason="Never"/>
+    <disable_collisions link1="te_toolside" link2="wrist_2_link" reason="Never"/>
+    <disable_collisions link1="te_toolside" link2="wrist_3_link" reason="Never"/>
+    <disable_collisions link1="te_toolside" link2="zivid_arm_mount" reason="Never"/>
+    <disable_collisions link1="te_toolside" link2="zivid_base_link" reason="Never"/>
+    <disable_collisions link1="wrist_2_link" link2="zivid_arm_mount" reason="Never"/>
+    <disable_collisions link1="wrist_2_link" link2="zivid_base_link" reason="Never"/>
+    <disable_collisions link1="wrist_3_link" link2="zivid_arm_mount" reason="Never"/>
+    <disable_collisions link1="wrist_3_link" link2="zivid_base_link" reason="Never"/>
+    <disable_collisions link1="zivid_arm_mount" link2="zivid_base_link" reason="Adjacent"/>
+    <disable_collisions link1="flange" link2="zivid_arm_mount" reason="Adjacent"/>
+</robot>

@@ -1,0 +1,17 @@
+# Goal: choose one of target, direction/distance, cartesian_target.
+string target               # Pose key or SRDF state.
+string planning_type        # ""/auto/joint: auto; cartesian; pilz: LIN; pilz_ptp: PTP.
+string direction            # IK frame: forward/backward/left/right/up/down; x/-x/y/-y/z/-z.
+float64 distance            # Relative distance (m); finite and > 0.
+float64[] cartesian_target  # XYZ (m), optionally followed by roll/pitch/yaw (deg).
+# XYZ-only: roll=180°, pitch=0°, current base_link yaw (fallback 0°).
+string frame_id             # Cartesian frame; empty = base_link.
+string poses_json           # Pose name: six joint angles (deg).
+string constraints_json     # Empty = no constraints.
+string robot_model_revision # Model cache key; empty disables cross-goal reuse.
+---
+# Result
+bool success
+string error_message
+---
+# Feedback

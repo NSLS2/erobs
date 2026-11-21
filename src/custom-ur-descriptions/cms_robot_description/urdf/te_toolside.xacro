@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro" name="wingman_toolchanger_toolside">
+
+  <xacro:macro name="te_toolside" params="parent_link xyz:='0 0 0' rpy:='0 0 0' scale:='0.001' mass:='0.4'">
+
+    <link name="te_toolside">
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <mesh filename="package://cms_robot_description/meshes/tool_exchanger/WM1_tool_plate.stl"
+                scale="${scale} ${scale} ${scale}"/>
+        </geometry>
+        <material name="grey">
+          <color rgba="0.5 0.5 0.5 1.0"/>
+        </material>
+      </visual>
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <mesh filename="package://cms_robot_description/meshes/tool_exchanger/WM1_tool_plate.stl"
+                scale="${scale} ${scale} ${scale}"/>
+        </geometry>
+      </collision>
+      <inertial>
+        <mass value="${mass}"/>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <inertia ixx="0.001" ixy="0.0" ixz="0.0"
+                 iyy="0.001" iyz="0.0"
+                 izz="0.001"/>
+      </inertial>
+    </link>
+
+    <joint name="te_toolside_joint" type="fixed">
+      <parent link="${parent_link}"/>
+      <child link="te_toolside"/>
+      <origin xyz="${xyz}" rpy="${rpy}"/>
+    </joint>
+
+  </xacro:macro>
+
+</robot>

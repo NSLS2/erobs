@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "ros-mcp-server": {
+      "command": "bash",
+      "args": ["-lc", "ROS_DEFAULT_TIMEOUT=60 uvx --isolated --with 'fastmcp<4' --from 'ros-mcp==3.1.0' ros-mcp --transport=stdio"]
+    },
+    "beambot": {
+      "command": "bash",
+      "args": ["-lc", "WS=$(git rev-parse --show-toplevel) && source /opt/ros/jazzy/setup.bash && source \"$WS/install/setup.bash\" && /usr/bin/python3 \"$WS/src/beambot/mcp_server/beambot_mcp_server.py\""]
+    }
+  }
+}

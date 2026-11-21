@@ -1,9 +1,0 @@
-string name
-string type
-float64 x
-float64 y 
-float64 z 
-float64 h 
-float64 r 
----
-string results

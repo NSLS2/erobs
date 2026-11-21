@@ -1,0 +1,26 @@
+<?xml version="1.0" ?>
+<!-- Standalone (no gripper) — EX-50-35 wrist extension only -->
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+    <!-- No gripper group, no end_effector -->
+
+    <!-- Wrist extension + tool exchanger robot plate + camera collision rules -->
+    <disable_collisions link1="wrist_extension" link2="wrist_1_link" reason="Never"/>
+    <disable_collisions link1="wrist_extension" link2="wrist_2_link" reason="Never"/>
+    <disable_collisions link1="wrist_extension" link2="wrist_3_link" reason="Never"/>
+    <disable_collisions link1="wrist_extension" link2="flange" reason="Adjacent"/>
+    <disable_collisions link1="wrist_extension" link2="zivid_arm_mount" reason="Adjacent"/>
+    <disable_collisions link1="wrist_extension" link2="zivid_base_link" reason="Never"/>
+    <disable_collisions link1="te_robotside" link2="wrist_extension" reason="Adjacent"/>
+    <disable_collisions link1="te_robotside" link2="wrist_1_link" reason="Never"/>
+    <disable_collisions link1="te_robotside" link2="wrist_2_link" reason="Never"/>
+    <disable_collisions link1="te_robotside" link2="wrist_3_link" reason="Never"/>
+    <disable_collisions link1="te_robotside" link2="flange" reason="Never"/>
+    <disable_collisions link1="te_robotside" link2="zivid_arm_mount" reason="Never"/>
+    <disable_collisions link1="te_robotside" link2="zivid_base_link" reason="Never"/>
+    <disable_collisions link1="wrist_2_link" link2="zivid_arm_mount" reason="Never"/>
+    <disable_collisions link1="wrist_2_link" link2="zivid_base_link" reason="Never"/>
+    <disable_collisions link1="wrist_3_link" link2="zivid_arm_mount" reason="Never"/>
+    <disable_collisions link1="wrist_3_link" link2="zivid_base_link" reason="Never"/>
+    <disable_collisions link1="zivid_arm_mount" link2="zivid_base_link" reason="Adjacent"/>
+    <disable_collisions link1="flange" link2="zivid_arm_mount" reason="Adjacent"/>
+</robot>

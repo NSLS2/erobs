@@ -1,56 +1,88 @@
 [workspace]
-name = "erobs"
-version = "0.1.0"
-description = "Extensible Robotic Beamline Scientists"
 authors = [
   "Phillip Maffettone <pmaffetto@bnl.gov>",
-  "Chandima Fernando <wfernando1@bnl.gov",
+  "Chandima Fernando <wfernando1@bnl.gov>",
+  "Max Rakitin <mrakitin@bnl.gov>",
+  "Jennefer Maldonado <jmaldonad@bnl.gov>",
+  "Aditya Bondada <abondada@bnl.gov>",
 ]
-channels = ["robostack-humble", "conda-forge"]
-platforms = ["linux-64"]
-license = "BSD-3-Clause"
-license-file = "LICENSE"
-readme = "README.md"
-repository = "https://github.com/nsls2/erobs"
-
-
-[activation]
-scripts = ["./setup.sh"]
+channels = ["conda-forge", "robostack-jazzy"]
+name = "erobs-pixi"
+platforms = ["osx-arm64", "linux-64"]
+version = "0.1.0"
 
 [tasks]
-build = "./build.sh"
-test = "./test.sh"
+topic-list = "ros2 topic list"
+node-list = "ros2 node list"
 
+[feature.ros.dependencies]
+ipython = ">=9.9.0,<10"
+ros-jazzy-rclpy = ">=7.1.11,<8"
+ros-jazzy-ros2cli = ">=0.32.9,<0.33"
+ros-jazzy-ros2topic = ">=0.32.9,<0.33"
+ros-jazzy-ros2action = ">=0.32.9,<0.33"
+ros-jazzy-ros2node = ">=0.32.9,<0.33"
+ros-jazzy-rosidl-default-generators = ">=1.6.0,<2"
+ros-jazzy-rosidl-default-runtime = ">=1.6.0,<2"
+ros-jazzy-rosidl-generator-py = ">=0.22.2,<0.23"
+ros-jazzy-rosidl-generator-c = ">=4.6.7,<5"
+ros-jazzy-ament-cmake-python = ">=2.5.6,<3"
+ros-jazzy-geometry-msgs = ">=5.3.7,<6"
+ros-jazzy-std-msgs = ">=5.3.7,<6"
+colcon-common-extensions = ">=0.3.0,<0.4"
+vcstool = ">=0.3.0,<0.4"
+# Preserve pkg_resources compatibility for Colcon.
+setuptools = ">=68,<81"
+ros-jazzy-rmw-cyclonedds-cpp = ">=2.2.3,<3"
+ros-jazzy-ros2doctor = ">=0.32.9,<0.33"
+ros-jazzy-ros2run = ">=0.32.9,<0.33"
+ros-jazzy-ros2launch = ">=0.26.11,<0.27"
+ros-jazzy-demo-nodes-cpp = ">=0.33.10,<0.34"
+ros-jazzy-sensor-msgs = ">=5.3.7,<6"
+ros-jazzy-std-srvs = ">=5.3.7,<6"
+ros-jazzy-cv-bridge = ">=4.1.0,<5"
+ros-jazzy-moveit-msgs = ">=2.6.0,<3"
+# Provides UR5e meshes for the GUI's 3D view.
+ros-jazzy-ur-description = ">=3.1.0,<4"
+# Avoid OpenCV Qt dependencies conflicting with pip PyQt6.
+libopencv = { version = "*", build = "headless*" }
+py-opencv = { version = "*", build = "headless*" }
 
-[tool.ruff.lint]
-select = [
-  "B",       # flake8-bugbear - https://docs.astral.sh/ruff/rules/#flake8-bugbear-b
-  "C4",      # flake8-comprehensions - https://docs.astral.sh/ruff/rules/#flake8-comprehensions-c4
-  "E",       # pycodestyle errors - https://docs.astral.sh/ruff/rules/#error-e
-  "F",       # pyflakes rules - https://docs.astral.sh/ruff/rules/#pyflakes-f
-  "W",       # pycodestyle warnings - https://docs.astral.sh/ruff/rules/#warning-w
-  "I",       # isort - https://docs.astral.sh/ruff/rules/#isort-i
-  "UP",      # pyupgrade - https://docs.astral.sh/ruff/rules/#pyupgrade-up
-  "SLF",     # self - https://docs.astral.sh/ruff/settings/#lintflake8-self
-  "PLC2701", # private import - https://docs.astral.sh/ruff/rules/import-private-name/
-  "LOG015",  # root logger call - https://docs.astral.sh/ruff/rules/root-logger-call/
-  "S101",    # assert - https://docs.astral.sh/ruff/rules/assert/
-  "D",       # docstring - https://docs.astral.sh/ruff/rules/#pydocstyle-d
-]
-ignore = [
-  "B901", # Return in a generator is needed for plans
-  "D104",
-]
-preview = true # so that preview mode PLC2701 is enabled
+[feature.ros.pypi-dependencies]
+pyqt6 = ">=6.9.1, <7"
+pyqt6-webengine = ">=6.9.0, <7"
 
-[tool.ruff.lint.pydocstyle]
-convention = "numpy"
+[feature.ros.target.linux-64.dependencies]
+xcb-util-cursor = ">=0.1.6,<0.2"
+libxkbcommon = ">=1.13.2,<2"
+libgl = ">=1.7.0,<2"
+libegl = ">=1.7.0,<2"
 
-[dependencies]
-pre-commit = ">=4.2.0,<5"
-pre-commit-hooks = ">=4.2.0,<5"
-ruff = ">=0.11.8,<0.12"
-bluesky = "*"
-ophyd = "*"
+[feature.profile.dependencies]
+bluesky-base = "==1.14.6"
+matplotlib-base= ">=3.9.3,<4"
+networkx = ">=3.4.2,<4"
+nslsii = "==0.11.4"
+numpy = "*"
+ophyd = ">=1.11.0"
 pyepics = "*"
-Ipython = "*"
+python = "*"
+semver = ">=3.0.4,<4"
+tiled-client = ">=0.1.6"
+lmfit = ">=1.3.4,<2"
+paramiko = ">=4.0.0,<5"
+peakutils = ">=1.3.5,<2"
+suitcase-utils = ">=0.5.4,<0.6"
+arvpyf = ">=0.4.3,<0.5"
+telnetlib3 = ">=1.0.4,<2"
+hdf5-external-filter-plugins = ">=0.1.0,<0.2"
+databroker = "==2.0.0"
+bluesky-tiled-plugins = ">=2.0.0b68"
+#ophyd-async = ">=0.13.7,<0.14"
+
+
+[feature.profile.pypi-dependencies]
+pvxslibs = ">=1.3.2, <2"
+
+[environments]
+ros2 = {features=["profile", "ros"], solve-group="profile"}

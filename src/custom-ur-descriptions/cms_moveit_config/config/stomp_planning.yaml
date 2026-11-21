@@ -1,0 +1,36 @@
+# STOMP pipeline — optimization-based planner (#97).
+#
+# Why STOMP for the trajectory cache: RRTstar/LBTRRT optimize PATH LENGTH, and
+# the shortest collision-free path hugs obstacle corners (grazing). STOMP
+# instead minimizes a smoothness + collision cost, so it produces smooth paths
+# that don't corner-hug — better one-time plans to cache and replay.
+#
+# Time parameterization: TOTG only (matches ompl_planning.yaml / the shipped
+# STOMP config). No Ruckig / jerk-limit smoothing — that experiment (#97) was
+# reverted; see git history if revisiting the onset/endpoint smoothing.
+#
+# Forwarded to the beambot_mtc node by config_loader.build_pipeline_param_args()
+# — same file move_group loads.
+planning_plugins:
+  - stomp_moveit/StompPlanner
+request_adapters:
+  - default_planning_request_adapters/ResolveConstraintFrames
+  - default_planning_request_adapters/ValidateWorkspaceBounds
+  - default_planning_request_adapters/CheckStartStateBounds
+  - default_planning_request_adapters/CheckStartStateCollision
+response_adapters:
+  - default_planning_response_adapters/AddTimeOptimalParameterization
+  - default_planning_response_adapters/ValidateSolution
+  - default_planning_response_adapters/DisplayMotionPath
+
+stomp_moveit:
+  num_timesteps: 60
+  num_iterations: 40
+  # We cache + replay the first plan, so it can afford to keep optimizing past
+  # first-valid for a cleaner cached path. 0 = stop at first valid (fastest).
+  num_iterations_after_valid: 10
+  num_rollouts: 30
+  max_rollouts: 30
+  exponentiated_cost_sensitivity: 0.8
+  control_cost_weight: 0.1
+  delta_t: 0.1

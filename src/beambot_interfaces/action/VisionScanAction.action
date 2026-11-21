@@ -1,0 +1,15 @@
+# Goal
+float64[] scan_positions_flat    # Flattened six-joint poses (rad).
+int32 num_scan_positions         # Must match flattened pose count.
+int32 scans_per_position         # Captures per pose; <= 0 uses 3.
+float64 timeout                  # Per-capture timeout (s); <= 0 uses 10.
+string poses_json                # Unused by scan server.
+string robot_model_revision      # Model cache key; empty disables cross-goal reuse.
+---
+# Result
+bool success
+string error_message
+int32 tags_detected              # Unique tags cached.
+---
+# Feedback
+string status                    # Not currently published.

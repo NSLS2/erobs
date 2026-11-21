@@ -3,18 +3,14 @@
 <package format="3">
   <name>epick_config</name>
   <version>0.1.0</version>
-  <description>Overlay configuration for ros2_epick_gripper (pose and serial port).</description>
+  <description>ePick overlay xacro (mounting pose, serial port) and suction-cup profiles.</description>
   <maintainer email="abondada@bnl.gov">Aditya Bondada</maintainer>
-  <license>Apache-2.0</license>
+  <license>BSD-3-Clause</license>
 
   <buildtool_depend>ament_cmake</buildtool_depend>
-  <exec_depend>ros2_control</exec_depend>
   <exec_depend>xacro</exec_depend>
-  <exec_depend>ros2launch</exec_depend>
-  <exec_depend>ros2run</exec_depend>
-  <exec_depend>ros2param</exec_depend>
-  <exec_depend>rclcpp</exec_depend>
-
+  <exec_depend>epick_description</exec_depend>
+  <exec_depend>epick_driver</exec_depend>
 
   <export>
     <build_type>ament_cmake</build_type>

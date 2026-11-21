@@ -1,0 +1,56 @@
+<?xml version="1.0"?>
+<?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
+<package format="3">
+  <name>cms_moveit_config</name>
+  <version>0.4.0</version>
+  <description>
+     Unified MoveIt configuration for UR5e with parameterized gripper support.
+     Supports: none (standalone), epick, hande, 2fg7, pipettor via gripper:= launch arg.
+  </description>
+  <maintainer email="abondada@bnl.gov">Aditya Bondada</maintainer>
+
+  <license>BSD-3-Clause</license>
+
+  <author email="abondada@bnl.gov">Aditya Bondada</author>
+
+  <buildtool_depend>ament_cmake</buildtool_depend>
+
+  <exec_depend>moveit_ros_move_group</exec_depend>
+  <exec_depend>moveit_kinematics</exec_depend>
+  <exec_depend>moveit_planners</exec_depend>
+  <exec_depend>moveit_simple_controller_manager</exec_depend>
+  <exec_depend>moveit_task_constructor_capabilities</exec_depend>
+  <exec_depend>moveit_task_constructor_visualization</exec_depend>
+  <exec_depend>moveit_ros_visualization</exec_depend>
+  <exec_depend>controller_manager</exec_depend>
+  <!-- hande_controllers.yaml loads parallel_gripper_action_controller/GripperActionController -->
+  <exec_depend>parallel_gripper_controller</exec_depend>
+  <exec_depend>epick_controllers</exec_depend>
+  <exec_depend>onrobot_2fg7_driver</exec_depend>
+  <exec_depend>pipette_driver</exec_depend>
+  <exec_depend>xacro</exec_depend>
+  <exec_depend>moveit_configs_utils</exec_depend>
+  <exec_depend>launch</exec_depend>
+  <exec_depend>launch_ros</exec_depend>
+  <exec_depend>launch_param_builder</exec_depend>
+  <exec_depend>ament_index_python</exec_depend>
+  <exec_depend>rviz2</exec_depend>
+  <exec_depend>rviz_default_plugins</exec_depend>
+  <exec_depend>joy</exec_depend>
+  <exec_depend>teleop_twist_joy</exec_depend>
+  <depend>moveit_core</depend>
+  <depend>moveit_servo</depend>
+  <depend>rclcpp</depend>
+  <depend>realtime_tools</depend>
+  <exec_depend>moveit_msgs</exec_depend>
+  <!-- `ros2 service call` in robot_bringup.launch.py -->
+  <exec_depend>ros2service</exec_depend>
+  <exec_depend>ur_robot_driver</exec_depend>
+  <exec_depend>cms_robot_description</exec_depend>
+  <!-- robot_bringup.launch.py imports beambot.config_loader -->
+  <exec_depend>beambot</exec_depend>
+
+  <export>
+      <build_type>ament_cmake</build_type>
+  </export>
+</package>

@@ -1,0 +1,10 @@
+<?xml version="1.0" ?>
+<!-- SRDF for LiX UR5e + Hand-E (single gripper, no tool exchange) -->
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="ur5e">
+
+    <!-- Common: ur_arm group, moveit_home, virtual_joint, arm self-collisions -->
+    <xacro:include filename="$(find lix_moveit_config)/srdf/common.srdf.xacro"/>
+
+    <!-- Hand-E gripper: group, states, end_effector, collision pairs -->
+    <xacro:include filename="$(find lix_moveit_config)/srdf/hande.srdf.xacro"/>
+</robot>

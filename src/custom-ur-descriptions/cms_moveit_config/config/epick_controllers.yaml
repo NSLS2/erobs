@@ -1,0 +1,17 @@
+# ePick controller overlay — loaded by the gripper spawner via --param-file,
+# NOT by ros2_control_node. The shared base (ur_base_controllers.yaml) carries
+# the full UR controller set; this overlay adds ONLY the ePick-specific
+# controllers so the base stays gripper-agnostic.
+#
+# Format note: the spawner reads `<controller>: ros__parameters: {type: ...}`
+# under the `/**` wildcard (controller_manager_services.py get_parameter_from
+# _param_files) and sets `<controller>.type` on the running controller_manager.
+# This is a DIFFERENT layout from the base file's `controller_manager:
+# ros__parameters: <controller>: type:` — do not merge the two formats.
+/**:
+  epick_gripper_action_controller:
+    ros__parameters:
+      type: epick_controllers/EpickGripperActionController
+  epick_status_publisher_controller:
+    ros__parameters:
+      type: epick_controllers/EpickStatusPublisherController

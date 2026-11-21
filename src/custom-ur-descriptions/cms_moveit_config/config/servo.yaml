@@ -1,0 +1,27 @@
+# Conservative defaults for manual Cartesian control. Tune these three scales
+# only after testing in mock hardware and at low teach-pendant speed.
+publish_period: 0.01
+command_in_type: unitless
+scale:
+  linear: 0.20
+  rotational: 0.60
+  joint: 0.20
+incoming_command_timeout: 0.10
+
+command_out_type: trajectory_msgs/JointTrajectory
+command_out_topic: /scaled_joint_trajectory_controller/joint_trajectory
+publish_joint_positions: true
+publish_joint_velocities: true
+publish_joint_accelerations: false
+use_smoothing: true
+smoothing_filter_plugin_name: online_signal_smoothing::AccelerationLimitedPlugin
+
+move_group_name: ur_arm
+joint_topic: /joint_states
+monitored_planning_scene_topic: /planning_scene
+is_primary_planning_scene_monitor: true
+check_octomap_collisions: false
+check_collisions: true
+collision_check_rate: 20.0
+self_collision_proximity_threshold: 0.02
+scene_collision_proximity_threshold: 0.04

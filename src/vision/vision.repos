@@ -9,7 +9,7 @@ repositories:
     type: git
     url: https://github.com/zivid/zivid-ros.git
     version: master
-  zed-ros2-wrapper:
-    type: git
-    url: https://github.com/stereolabs/zed-ros2-wrapper.git
-    version: master
+#  zed-ros2-wrapper:
+#    type: git
+#    url: https://github.com/stereolabs/zed-ros2-wrapper.git
+#    version: master

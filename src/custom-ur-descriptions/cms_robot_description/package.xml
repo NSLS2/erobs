@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
+<package format="3">
+  <name>cms_robot_description</name>
+  <version>0.1.0</version>
+  <description>This package creates robot descriptions for UR5e robotic systems with various end-effector configurations</description>
+  <maintainer email="abondada@bnl.gov">Aditya Bondada</maintainer>
+  <license>BSD-3-Clause</license>
+
+  <buildtool_depend>ament_cmake</buildtool_depend>
+
+  <exec_depend>xacro</exec_depend>
+  <exec_depend>ur_description</exec_depend>
+  <exec_depend>ur_robot_driver</exec_depend>
+  <exec_depend>ur_client_library</exec_depend>
+  <exec_depend>zivid_description</exec_depend>
+  <exec_depend>epick_config</exec_depend>
+  <exec_depend>robotiq_hande_description</exec_depend>
+  <exec_depend>robotiq_hande_driver</exec_depend>
+  <exec_depend>onrobot_2fg7_description</exec_depend>
+  <exec_depend>pipette_description</exec_depend>
+
+  <test_depend>ament_lint_auto</test_depend>
+  <test_depend>ament_lint_common</test_depend>
+
+  <export>
+    <build_type>ament_cmake</build_type>
+  </export>
+</package>

@@ -1,0 +1,17 @@
+# Build context: the workspace sources and the setup/start scripts only
+*
+!src/
+!utils/
+
+# Python caches inside src/ and utils/
+**/__pycache__/
+**/.pytest_cache/
+
+# Driver repos are imported inside the image from the .repos files
+src/end_effectors/serial/
+src/end_effectors/robotiq_hande_driver/
+src/end_effectors/robotiq_hande_description/
+src/end_effectors/ros2_epick_gripper/
+src/end_effectors/pipettor/
+src/vision/*
+!src/vision/vision.repos

@@ -1,0 +1,40 @@
+# Goal
+bool use_vision                 # False uses named joint poses.
+
+# Vision (use_vision=true)
+string vision_method           # marker (default) or sample_roi.
+int32 tag_id                    # ArUco ID.
+int32 sample_index              # Reserved; unused.
+float64 z_offset                # base_link Z offset (m); 0 = gripper default.
+string scan_pose                # Scan/retreat pose key.
+# Marker-frame offsets (m).
+float64 marker_offset_x
+float64 marker_offset_y
+float64 marker_offset_z
+string offset_direction         # Flange-frame direction.
+float64 offset_distance         # Offset (m); > 0 when direction is set.
+string ik_frame                 # Empty = auto-detect.
+string strategy                 # sample_roi; empty = farthest_edge.
+float64 edge_inset_mm           # sample_roi; 0 = 6.5 mm.
+
+# Named poses (use_vision=false)
+string approach_pose            # Approach/retreat pose key.
+string target_pose              # Grasp pose key.
+
+# Common
+string gripper_group            # MoveIt gripper group.
+string gripper_states_json      # Maps grasp/release to SRDF states.
+string poses_json               # Pose name: six joint angles (deg).
+string constraints_json         # Empty = no constraints.
+string robot_model_revision     # Model cache key; empty disables cross-goal reuse.
+---
+# Result
+bool success
+string error_message
+bool vacuum_ok                  # True if detected or unchecked; only valid on success.
+# Vision approach in base_link; empty on failure or non-vision picks.
+float64[] detected_position     # XYZ (m).
+float64[] detected_orientation  # Quaternion [x,y,z,w].
+---
+# Feedback
+string current_stage            # Not currently published.

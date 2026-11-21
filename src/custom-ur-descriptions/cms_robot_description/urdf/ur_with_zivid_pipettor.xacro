@@ -1,0 +1,149 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://wiki.ros.org/xacro" name="$(arg name)">
+
+<!--Chain: map -> UR -> flange -> wrist_extension -> te_robotside -> te_toolside -> pipettor -->
+
+  <!-- robot name parameter -->
+  <xacro:arg name="name" default="ur5e"/>
+
+  <!-- import main macros -->
+  <xacro:include filename="$(find ur_description)/urdf/ur_macro.xacro"/>
+  <xacro:include filename="$(find ur_robot_driver)/urdf/ur.ros2_control.xacro"/>
+  <xacro:include filename="$(find cms_robot_description)/urdf/zivid_camera_mount.xacro"/>
+  <xacro:include filename="$(find cms_robot_description)/urdf/wrist_extension.xacro"/>
+  <xacro:include filename="$(find cms_robot_description)/urdf/te_robotside.xacro"/>
+  <xacro:include filename="$(find cms_robot_description)/urdf/te_toolside.xacro"/>
+  <xacro:include filename="$(find pipette_description)/urdf/pipette_macro.urdf.xacro"/>
+
+  <!-- possible 'ur_type' values: ur3, ur5e, ur5, ur10, ur10e, ur16e, ur20 -->
+  <xacro:arg name="ur_type" default="ur5e"/>
+
+  <!-- Parameters from upstream UR description -->
+  <xacro:arg name="tf_prefix" default="" />
+  <xacro:arg name="joint_limit_params" default="$(find ur_description)/config/$(arg ur_type)/joint_limits.yaml"/>
+  <xacro:arg name="kinematics_params" default="$(find ur_description)/config/$(arg ur_type)/default_kinematics.yaml"/>
+  <xacro:arg name="physical_params" default="$(find ur_description)/config/$(arg ur_type)/physical_parameters.yaml"/>
+  <xacro:arg name="visual_params" default="$(find ur_description)/config/$(arg ur_type)/visual_parameters.yaml"/>
+  <xacro:arg name="safety_limits" default="false"/>
+  <xacro:arg name="safety_pos_margin" default="0.15"/>
+  <xacro:arg name="safety_k_position" default="20"/>
+
+  <!-- ros2_control related parameters -->
+  <xacro:arg name="headless_mode" default="false" />
+  <xacro:arg name="robot_ip" default="0.0.0.0" />
+  <xacro:arg name="script_filename" default=""/>
+  <xacro:arg name="output_recipe_filename" default=""/>
+  <xacro:arg name="input_recipe_filename" default=""/>
+  <xacro:arg name="reverse_ip" default="0.0.0.0"/>
+  <xacro:arg name="script_command_port" default="50004"/>
+  <xacro:arg name="reverse_port" default="50001"/>
+  <xacro:arg name="script_sender_port" default="50002"/>
+  <xacro:arg name="trajectory_port" default="50003"/>
+  <!-- Keep-alive: number of 20ms cycles without response before disconnect (10 = 200ms timeout) -->
+  <xacro:arg name="robot_receive_timeout" default="0.2"/>
+
+  <!-- tool communication related parameters -->
+  <xacro:arg name="use_tool_communication" default="true" />
+  <xacro:arg name="tool_voltage" default="24" />
+  <xacro:arg name="tool_parity" default="0" />
+  <xacro:arg name="tool_baud_rate" default="115200" />
+  <xacro:arg name="tool_stop_bits" default="1" />
+  <xacro:arg name="tool_rx_idle_chars" default="1.5" />
+  <xacro:arg name="tool_tx_idle_chars" default="3.5" />
+  <xacro:arg name="tool_device_name" default="/tmp/ttyUR" />
+  <xacro:arg name="tool_tcp_port" default="54321" />
+
+  <!-- Simulation parameters -->
+  <xacro:arg name="mock_sensor_commands" default="false" />
+  <xacro:arg name="use_mock_hardware" default="false" />
+
+  <!-- initial position for simulations (Fake Hardware, Gazebo, Ignition) -->
+  <xacro:arg name="initial_positions_file" default="$(find cms_robot_description)/config/pipettor/initial_positions.yaml"/>
+  <xacro:property name="initial_positions_file" default="$(arg initial_positions_file)"/>
+
+  <!-- create link fixed to the "map" -->
+  <link name="map" />
+
+  <!-- Kinematic model (Jazzy: no hardware params here) -->
+  <xacro:ur_robot
+    name="$(arg name)"
+    tf_prefix="$(arg tf_prefix)"
+    parent="map"
+    joint_limits_parameters_file="$(arg joint_limit_params)"
+    kinematics_parameters_file="$(arg kinematics_params)"
+    physical_parameters_file="$(arg physical_params)"
+    visual_parameters_file="$(arg visual_params)"
+    safety_limits="$(arg safety_limits)"
+    safety_pos_margin="$(arg safety_pos_margin)"
+    safety_k_position="$(arg safety_k_position)"
+    >
+    <origin xyz="0 0 0" rpy="0 0 0" />
+  </xacro:ur_robot>
+
+  <!-- ros2_control hardware interface (Jazzy: separate from kinematic macro) -->
+  <xacro:ur_ros2_control
+    name="$(arg name)"
+    ur_type="$(arg ur_type)"
+    tf_prefix="$(arg tf_prefix)"
+    kinematics_parameters_file="$(arg kinematics_params)"
+    robot_ip="$(arg robot_ip)"
+    script_filename="$(arg script_filename)"
+    input_recipe_filename="$(arg input_recipe_filename)"
+    output_recipe_filename="$(arg output_recipe_filename)"
+    use_mock_hardware="$(arg use_mock_hardware)"
+    mock_sensor_commands="$(arg mock_sensor_commands)"
+    headless_mode="$(arg headless_mode)"
+    initial_positions="${xacro.load_yaml(initial_positions_file)}"
+    use_tool_communication="$(arg use_tool_communication)"
+    tool_voltage="$(arg tool_voltage)"
+    tool_parity="$(arg tool_parity)"
+    tool_baud_rate="$(arg tool_baud_rate)"
+    tool_stop_bits="$(arg tool_stop_bits)"
+    tool_rx_idle_chars="$(arg tool_rx_idle_chars)"
+    tool_tx_idle_chars="$(arg tool_tx_idle_chars)"
+    tool_device_name="$(arg tool_device_name)"
+    tool_tcp_port="$(arg tool_tcp_port)"
+    reverse_ip="$(arg reverse_ip)"
+    script_command_port="$(arg script_command_port)"
+    reverse_port="$(arg reverse_port)"
+    script_sender_port="$(arg script_sender_port)"
+    trajectory_port="$(arg trajectory_port)"
+    robot_receive_timeout="$(arg robot_receive_timeout)"
+  />
+
+  <!-- Modular Zivid: Arm Mount + Camera (with calibrated camera position) -->
+  <!-- Using tool0 instead of flange - Zivid calibration uses tool0 frame -->
+  <xacro:zivid_camera_mount
+    parent_link="$(arg tf_prefix)tool0"
+    xyz="0 0 0.005"
+    rpy="0 0 0"
+    zivid_model="ZIVID_2_PLUS_MR60"/>
+
+  <!-- Wrist extension (EX-50-35): bolts to flange, extends 35mm along tool-Z -->
+  <xacro:wrist_extension
+    parent_link="$(arg tf_prefix)tool0"
+    xyz="0 0 0.016"
+    rpy="1.5708 0 3.14159"/>
+
+  <!-- Tool exchanger robot-side plate (Wingman WM1) at the tip of the extension -->
+  <xacro:te_robotside
+    parent_link="wrist_extension"
+    xyz="0 0.047 0"
+    rpy="3.14159 0 0"/>
+
+  <!-- Tool exchanger tool-side plate (Wingman WM1) — comes with each gripper -->
+  <xacro:te_toolside
+    parent_link="te_robotside"
+    xyz="0 -0.011 0"
+    rpy="0 0 0"/>
+
+  <!-- Pipettor attached to tool-side plate -->
+  <xacro:pipette
+    name="pipette"
+    prefix="$(arg tf_prefix)"
+    parent="te_toolside"
+    pipette_mass="0.200"
+    xyz="-0.005 -0.005 0"
+    rpy="-1.5708 0 3.1416"
+  />
+</robot>

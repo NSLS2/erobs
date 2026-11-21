@@ -1,0 +1,62 @@
+# joint_limits.yaml allows the dynamics properties specified in the URDF to be overwritten or augmented as needed
+
+default_velocity_scaling_factor: 0.1
+default_acceleration_scaling_factor: 0.1
+
+joint_limits:
+  elbow_joint:
+    has_velocity_limits: true
+    max_velocity: 3.1415926535897931
+    has_acceleration_limits: true
+    max_acceleration: 5.0
+    has_deceleration_limits: true
+    max_deceleration: -5.0
+  robotiq_hande_left_finger_joint:
+    has_velocity_limits: true
+    max_velocity: 0.14999999999999999
+    has_acceleration_limits: true
+    max_acceleration: 5.0
+    has_deceleration_limits: true
+    max_deceleration: -5.0
+  robotiq_hande_right_finger_joint:
+    has_velocity_limits: true
+    max_velocity: 0.14999999999999999
+    has_acceleration_limits: true
+    max_acceleration: 5.0
+    has_deceleration_limits: true
+    max_deceleration: -5.0
+  shoulder_lift_joint:
+    has_velocity_limits: true
+    max_velocity: 3.1415926535897931
+    has_acceleration_limits: true
+    max_acceleration: 5.0
+    has_deceleration_limits: true
+    max_deceleration: -5.0
+  shoulder_pan_joint:
+    has_velocity_limits: true
+    max_velocity: 3.1415926535897931
+    has_acceleration_limits: true
+    max_acceleration: 5.0
+    has_deceleration_limits: true
+    max_deceleration: -5.0
+  wrist_1_joint:
+    has_velocity_limits: true
+    max_velocity: 3.1415926535897931
+    has_acceleration_limits: true
+    max_acceleration: 5.0
+    has_deceleration_limits: true
+    max_deceleration: -5.0
+  wrist_2_joint:
+    has_velocity_limits: true
+    max_velocity: 3.1415926535897931
+    has_acceleration_limits: true
+    max_acceleration: 5.0
+    has_deceleration_limits: true
+    max_deceleration: -5.0
+  wrist_3_joint:
+    has_velocity_limits: true
+    max_velocity: 3.1415926535897931
+    has_acceleration_limits: true
+    max_acceleration: 5.0
+    has_deceleration_limits: true
+    max_deceleration: -5.0

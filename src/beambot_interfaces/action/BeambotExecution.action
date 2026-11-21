@@ -1,0 +1,19 @@
+# Goal
+string full_json           # Task script JSON.
+bool dry_run               # Plan-only preview; moveto/end_effector only.
+---
+# Result
+bool success
+string error_message
+int32 completed_steps
+int32 total_steps
+# Last detect-only pose in base_link; empty if unavailable.
+float64[] detected_position    # XYZ (m).
+float64[] detected_orientation # Quaternion [x,y,z,w].
+---
+# Feedback
+int32 current_step
+string current_action
+float32 progress_percentage
+string status_message
+string current_gripper

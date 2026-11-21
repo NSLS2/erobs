@@ -1,0 +1,11 @@
+# Goal
+string operation             # SUCK, EXPEL, EJECT_TIP, SET_LED.
+float64 volume_pct           # Currently ignored by the pipettor driver.
+std_msgs/ColorRGBA led_color  # SET_LED color.
+string poses_json            # Unused.
+---
+# Result
+bool success
+string error_message
+---
+# Feedback

@@ -1,0 +1,61 @@
+planning_plugins:
+  - ompl_interface/OMPLPlanner
+request_adapters:
+  - default_planning_request_adapters/ResolveConstraintFrames
+  - default_planning_request_adapters/ValidateWorkspaceBounds
+  - default_planning_request_adapters/CheckStartStateBounds
+  - default_planning_request_adapters/CheckStartStateCollision
+response_adapters:
+  - default_planning_response_adapters/AddTimeOptimalParameterization
+  - default_planning_response_adapters/ValidateSolution
+  - default_planning_response_adapters/DisplayMotionPath
+planner_configs:
+  RRTConnectkConfigDefault:
+    type: geometric::RRTConnect
+    range: 0.0
+    goal_bias: 0.15
+  RRTstar:
+    type: geometric::RRTstar
+    range: 1.0
+  PRMkConfigDefault:
+    type: geometric::PRM
+    range: 0.0
+  RRTkConfigDefault:
+    type: geometric::RRT
+    range: 0.0
+  ESTkConfigDefault:
+    type: geometric::EST
+    range: 0.0
+  LBKPIECEkConfigDefault:
+    type: geometric::LBKPIECE
+    range: 0.0
+  BKPIECEkConfigDefault:
+    type: geometric::BKPIECE
+    range: 0.0
+  KPIECEkConfigDefault:
+    type: geometric::KPIECE
+    range: 0.0
+  BiTRRTkConfigDefault:
+    type: geometric::BiTRRT
+    range: 0.0
+  LazyPRMkConfigDefault:
+    type: geometric::LazyPRM
+    range: 0.0
+  SBLkConfigDefault:
+    type: geometric::SBL
+    range: 0.0
+
+ur_arm:
+  default_planner_config: RRTConnectkConfigDefault
+  planner_configs:
+    - RRTConnectkConfigDefault
+    - RRTstar
+    - PRMkConfigDefault
+    - RRTkConfigDefault
+    - ESTkConfigDefault
+    - LBKPIECEkConfigDefault
+    - BKPIECEkConfigDefault
+    - KPIECEkConfigDefault
+    - BiTRRTkConfigDefault
+    - LazyPRMkConfigDefault
+    - SBLkConfigDefault

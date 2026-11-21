@@ -1,0 +1,52 @@
+# Goal
+string vision_method             # marker (default), sample_roi, spincoater_pocket, spincoater_sample.
+string approach_strategy        # approach_pose (default) or j6_snap.
+
+# Detection
+int32 tag_id                # ArUco ID or sample_roi anchor.
+int32 sample_index          # Reserved; unused.
+float64 timeout             # marker/sample_roi timeout (s).
+string strategy             # sample_roi; empty = farthest_edge.
+float64 edge_inset_mm       # sample_roi inset; 0 = no inset.
+float64[] scan_positions_flat  # marker scans: flattened six-joint poses (rad).
+int32 num_scan_positions       # 0 = single-position detection.
+
+# Approach pose
+float64 z_offset            # base_link Z offset (m); 0 = gripper default.
+# Marker-frame offsets (m).
+float64 marker_offset_x
+float64 marker_offset_y
+float64 marker_offset_z
+string offset_direction     # Flange-frame direction.
+float64 offset_distance     # Offset (m); > 0 when direction is set.
+
+# j6_snap
+string target_pose          # Joint-pose key; joint 6 is corrected.
+float64 k_offset            # Calibration offset (deg).
+float64 forward_distance    # Forward move after positioning (m); 0 = none.
+
+# Execution
+string scan_pose            # Pre-detection pose key; empty skips the move.
+string terminal_action      # grasp/release or SRDF state; empty = none.
+string gripper_group        # MoveIt gripper group.
+string gripper_states_json  # Maps grasp/release to SRDF states.
+bool pre_open               # Open gripper before the scan_pose move.
+string retreat_pose         # approach_pose retreat key; empty = none.
+
+# Common
+string ik_frame             # approach_pose IK frame; empty = auto-detect.
+string poses_json           # Pose name: six joint angles (deg).
+string constraints_json     # Empty = no constraints.
+bool detect_only            # Skips approach_pose execution, not scans; ignored by j6_snap.
+string robot_model_revision # Model cache key; empty disables cross-goal reuse.
+---
+# Result
+bool success
+string error_message
+bool vacuum_ok                  # True if detected or unchecked; only valid on success.
+# Detect-only approach in base_link; empty if unavailable.
+float64[] detected_position     # XYZ (m).
+float64[] detected_orientation  # Quaternion [x,y,z,w].
+string motion_kind              # NONE or CARTESIAN_POSE (also reported for joint moves).
+---
+# Feedback

@@ -1,5 +1,0 @@
-string name
-string[<=8] property
-float64[<=8] value
----
-string results

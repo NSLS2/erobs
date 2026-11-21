@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { width: 100%; height: 100%; overflow: hidden; background: #1e1e1e; }
+canvas { display: block; }
+#loading {
+    position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+    color: #888; font-family: monospace; font-size: 14px;
+}
+#error {
+    position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+    color: #e57373; font-family: monospace; font-size: 13px;
+    max-width: 80%; text-align: center; display: none;
+}
+</style>
+</head>
+<body>
+<div id="loading">Initializing...</div>
+<div id="error"></div>
+<script src="./three.min.js"></script>
+<script src="./OrbitControls.global.js"></script>
+<script src="./STLLoader.global.js"></script>
+<script src="./ColladaLoader.global.js"></script>
+<script src="./URDFLoader.global.js"></script>
+<script>
+(function() {
+    var JOINT_NAMES = [
+        'shoulder_pan_joint',
+        'shoulder_lift_joint',
+        'elbow_joint',
+        'wrist_1_joint',
+        'wrist_2_joint',
+        'wrist_3_joint'
+    ];
+
+    var robot = null;
+    var demoAnimId = null;
+    var loadId = 0;
+
+    // Shared world frame: holds the ROS-Z-up -> Three.js-Y-up rotation once,
+    // applied to robot + obstacles together. Obstacles persist across robot reloads.
+    var worldGroup = null;
+    var obstacleGroup = null;
+    var lastObstacleList = [];
+
+    // Scene
+    var scene = new THREE.Scene();
+    scene.background = new THREE.Color(0x1e1e1e);
+
+    // worldGroup applies the ROS->Three frame conversion once for all children.
+    worldGroup = new THREE.Group();
+    worldGroup.rotation.x = -Math.PI / 2;
+    scene.add(worldGroup);
+
+    obstacleGroup = new THREE.Group();
+    obstacleGroup.name = '__obstacles__';
+    worldGroup.add(obstacleGroup);
+
+    // Camera
+    var camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.01, 100);
+    camera.position.set(1.2, 1.0, 1.2);
+    camera.lookAt(0, 0.4, 0);
+
+    // Renderer
+    var renderer = new THREE.WebGLRenderer({ antialias: true });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setPixelRatio(window.devicePixelRatio);
+    renderer.shadowMap.enabled = true;
+    renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+    document.body.appendChild(renderer.domElement);
+
+    // Lights
+    var dirLight = new THREE.DirectionalLight(0xffffff, 1.5);
+    dirLight.position.set(3, 5, 3);
+    dirLight.castShadow = true;
+    scene.add(dirLight);
+
+    var backLight = new THREE.DirectionalLight(0x8888ff, 0.4);
+    backLight.position.set(-2, 3, -2);
+    scene.add(backLight);
+
+    var ambientLight = new THREE.AmbientLight(0x404040, 1.2);
+    scene.add(ambientLight);
+
+    // Ground grid
+    var grid = new THREE.GridHelper(2, 20, 0x444444, 0x333333);
+    grid.material.opacity = 0.5;
+    grid.material.transparent = true;
+    scene.add(grid);
+
+    // Orbit controls
+    var controls = new THREE.OrbitControls(camera, renderer.domElement);
+    controls.target.set(0, 0.4, 0);
+    controls.enableDamping = true;
+    controls.dampingFactor = 0.1;
+    controls.update();
+
+    // Animation loop
+    function animate() {
+        requestAnimationFrame(animate);
+        controls.update();
+        renderer.render(scene, camera);
+    }
+    animate();
+
+    // Resize
+    window.addEventListener('resize', function() {
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+    });
+
+    // --- Robot Loading ---
+
+    window.loadRobot = function(urdfUrl, meshPort) {
+        var loadingEl = document.getElementById('loading');
+        var errorEl = document.getElementById('error');
+        loadingEl.style.display = 'block';
+        loadingEl.textContent = 'Fetching URDF...';
+        errorEl.style.display = 'none';
+
+        // Dispose old robot completely
+        if (robot) {
+            robot.traverse(function(child) {
+                if (child.geometry) child.geometry.dispose();
+                if (child.material) {
+                    if (Array.isArray(child.material)) {
+                        child.material.forEach(function(m) { m.dispose(); });
+                    } else {
+                        child.material.dispose();
+                    }
+                }
+            });
+            worldGroup.remove(robot);
+            robot = null;
+        }
+
+        loadId++;
+        var thisLoadId = loadId;
+
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', urdfUrl, true);
+        xhr.onload = function() {
+            if (thisLoadId !== loadId) return;
+            if (xhr.status !== 200) {
+                loadingEl.style.display = 'none';
+                errorEl.style.display = 'block';
+                errorEl.textContent = 'URDF fetch failed: HTTP ' + xhr.status;
+                return;
+            }
+
+            loadingEl.textContent = 'Parsing URDF...';
+            try {
+                var loader = new URDFLoader(new THREE.LoadingManager(
+                    function() { loadingEl.style.display = 'none'; },
+                    function(url, loaded, total) {
+                        loadingEl.textContent = 'Loading meshes: ' + loaded + '/' + total;
+                    },
+                    function(url) { console.error('Mesh load error:', url); }
+                ));
+                loader.packages = function(pkg) {
+                    return 'http://127.0.0.1:' + meshPort + '/' + pkg;
+                };
+
+                var newRobot = loader.parse(xhr.responseText);
+                if (thisLoadId !== loadId) return;
+                robot = newRobot;
+                worldGroup.add(robot);
+
+                // Apply materials to STL meshes
+                robot.traverse(function(child) {
+                    if (child.isMesh && child.material) {
+                        if (child.material.color && child.material.color.getHex() === 0xffffff) {
+                            child.material = new THREE.MeshPhongMaterial({
+                                color: 0xb0b0b0,
+                                specular: 0x222222,
+                                shininess: 30
+                            });
+                        }
+                        child.castShadow = true;
+                        child.receiveShadow = true;
+                    }
+                });
+
+                // Re-apply cached obstacles so a gripper switch doesn't blank them.
+                if (lastObstacleList.length) {
+                    _applyObstacles(lastObstacleList);
+                }
+            } catch (e) {
+                loadingEl.style.display = 'none';
+                errorEl.style.display = 'block';
+                errorEl.textContent = 'Parse error: ' + e.message;
+                console.error('URDF parse error:', e);
+            }
+        };
+        xhr.onerror = function() {
+            if (thisLoadId !== loadId) return;
+            loadingEl.style.display = 'none';
+            errorEl.style.display = 'block';
+            errorEl.textContent = 'Network error fetching URDF';
+        };
+        xhr.send();
+    };
+
+    // --- Joint Updates ---
+
+    window.updateJoints = function(degArray) {
+        if (!robot || !robot.joints) return;
+        for (var i = 0; i < JOINT_NAMES.length && i < degArray.length; i++) {
+            var joint = robot.joints[JOINT_NAMES[i]];
+            if (joint) {
+                joint.setJointValue(degArray[i] * Math.PI / 180.0);
+            }
+        }
+    };
+
+    // --- Utility ---
+
+    window.resetView = function() {
+        camera.position.set(1.2, 1.0, 1.2);
+        controls.target.set(0, 0.4, 0);
+        controls.update();
+    };
+
+    window.setHomePose = function() {
+        window.updateJoints([0, -90, 0, 0, 0, -180]);
+    };
+
+    window.demoMode = function(enable) {
+        if (!enable && demoAnimId) {
+            cancelAnimationFrame(demoAnimId);
+            demoAnimId = null;
+            return;
+        }
+        if (enable && !demoAnimId) {
+            var startTime = performance.now();
+            function demoStep() {
+                var t = (performance.now() - startTime) / 1000.0;
+                var joints = [
+                    30 * Math.sin(t * 0.5),
+                    -90 + 20 * Math.sin(t * 0.7),
+                    40 * Math.sin(t * 0.6),
+                    30 * Math.sin(t * 0.8),
+                    25 * Math.sin(t * 0.9),
+                    -180 + 45 * Math.sin(t * 0.4)
+                ];
+                window.updateJoints(joints);
+                demoAnimId = requestAnimationFrame(demoStep);
+            }
+            demoStep();
+        }
+    };
+
+    // --- Static Planning-Scene Preview ---
+    // Renders box/cylinder/sphere obstacles parsed from beamline_scene.yaml.
+    // Full-replace semantics: setSceneObstacles always rebuilds from the list.
+
+    function _disposeObstacles() {
+        obstacleGroup.traverse(function(child) {
+            if (child.geometry) child.geometry.dispose();
+            if (child.material) {
+                if (Array.isArray(child.material)) {
+                    child.material.forEach(function(m) { m.dispose(); });
+                } else {
+                    child.material.dispose();
+                }
+            }
+        });
+        while (obstacleGroup.children.length) {
+            obstacleGroup.remove(obstacleGroup.children[0]);
+        }
+    }
+
+    function _makeObstacleMaterial() {
+        return new THREE.MeshBasicMaterial({
+            color: 0x44dd44,
+            transparent: true,
+            opacity: 0.30,
+            depthWrite: false,
+            side: THREE.DoubleSide
+        });
+    }
+
+    function _buildObstacle(spec) {
+        // spec = { name, type, pos:[x,y,z], rot:[r,p,y], dims:{...} }
+        var outer = new THREE.Group();
+        outer.name = spec.name || 'obstacle';
+        outer.position.set(spec.pos[0], spec.pos[1], spec.pos[2]);
+        outer.rotation.set(spec.rot[0], spec.rot[1], spec.rot[2], 'XYZ');
+
+        var mat = _makeObstacleMaterial();
+        var mesh;
+
+        if (spec.type === 'box') {
+            var s = spec.dims.size;
+            mesh = new THREE.Mesh(new THREE.BoxGeometry(s[0], s[1], s[2]), mat);
+            mesh.renderOrder = 999;
+            outer.add(mesh);
+        } else if (spec.type === 'cylinder') {
+            // ROS cylinder is Z-aligned; THREE.CylinderGeometry is Y-aligned.
+            // Inner group fixes the axis so YAML rpy still applies on the outer group.
+            var inner = new THREE.Group();
+            inner.rotation.x = Math.PI / 2;
+            var geom = new THREE.CylinderGeometry(
+                spec.dims.radius, spec.dims.radius, spec.dims.height, 32);
+            mesh = new THREE.Mesh(geom, mat);
+            mesh.renderOrder = 999;
+            inner.add(mesh);
+            outer.add(inner);
+        } else if (spec.type === 'sphere') {
+            mesh = new THREE.Mesh(
+                new THREE.SphereGeometry(spec.dims.radius, 24, 16), mat);
+            mesh.renderOrder = 999;
+            outer.add(mesh);
+        } else {
+            return null;
+        }
+        return outer;
+    }
+
+    function _applyObstacles(list) {
+        _disposeObstacles();
+        var added = 0;
+        for (var i = 0; i < list.length; i++) {
+            var node = _buildObstacle(list[i]);
+            if (node) {
+                obstacleGroup.add(node);
+                added++;
+            }
+        }
+        return added;
+    }
+
+    window.setSceneObstacles = function(list) {
+        if (!Array.isArray(list)) return 0;
+        lastObstacleList = list;
+        return _applyObstacles(list);
+    };
+
+    window.clearSceneObstacles = function() {
+        lastObstacleList = [];
+        _disposeObstacles();
+    };
+
+    // Signal readiness
+    window._vizReady = true;
+    document.getElementById('loading').textContent = 'Ready — waiting for robot model...';
+    console.log('Viewer initialized OK');
+})();
+</script>
+</body>
+</html>

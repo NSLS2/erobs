@@ -1,0 +1,10 @@
+# Goal
+string gripper_group        # MoveIt group; empty skips the operation.
+string end_effector_action  # Named SRDF state for the group.
+string robot_model_revision # Orchestrator-managed; empty disables cross-goal model reuse
+---
+# Result
+bool success
+string error_message
+---
+# Feedback

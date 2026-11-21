@@ -1,0 +1,21 @@
+# Hand-E gripper overlay — loaded by the spawner's --param-file, not by
+# ros2_control_node. `/**` + ros__parameters.type is the format the spawner reads.
+# joint is literal (no $(var tf_prefix)): the spawner won't expand it; LiX uses "".
+# Values from upstream AGH-CEAI/robotiq_hande_driver jazzy config.
+/**:
+  gripper_action_controller:
+    ros__parameters:
+      type: parallel_gripper_action_controller/GripperActionController
+      action_monitor_rate: 20.0 # Hz
+      joint: robotiq_hande_left_finger_joint
+      goal_tolerance: 0.01 # m
+      allow_stalling: false
+      stall_velocity_threshold: 0.001 # m/s
+      stall_timeout: 1.0 # s
+      max_effort_interface: ""
+      max_effort: 10.0 # N
+      max_velocity_interface: ""
+      max_velocity: 0.1 # m/s
+      state_interfaces:
+        - position
+        - velocity

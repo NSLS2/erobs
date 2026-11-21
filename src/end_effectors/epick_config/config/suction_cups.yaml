@@ -1,0 +1,46 @@
+# ePick Suction Cup Profiles
+#
+# Each profile defines the physical dimensions of a suction cup configuration.
+# The active profile is set in the beamline config (grippers.epick.cup_profile).
+#
+# Dimensions:
+#   extension_length: Length of extension tube between ePick body and cup (meters)
+#   extension_radius: Radius of extension tube (meters)
+#   suction_cup_height: Height of the suction cup cylinder (meters)
+#   suction_cup_radius: Radius of the suction cup (meters)
+
+cups:
+  pen_vacuum:
+    description: "Custom extension nozzle + small cup (CMS beamline)"
+    extension_length: 0.0345
+    extension_radius: 0.001
+    suction_cup_height: 0.002
+    suction_cup_radius: 0.0035
+
+  7mm_dia:
+    description: "7mm diameter cup with short extension"
+    extension_length: 0.018
+    extension_radius: 0.006
+    suction_cup_height: 0.006
+    suction_cup_radius: 0.0035
+
+  3mm_dia:
+    description: "3mm diameter cup with short extension (small samples)"
+    extension_length: 0.013
+    extension_radius: 0.004
+    suction_cup_height: 0.003
+    suction_cup_radius: 0.0015
+
+  3mm_dia_external_air:
+    description: "3mm diameter cup with external-air blow-out adapter"
+    extension_length: 0.030
+    extension_radius: 0.009
+    suction_cup_height: 0.003
+    suction_cup_radius: 0.0015
+
+  default:
+    description: "Stock ePick suction cup (no extension)"
+    extension_length: 0.0
+    extension_radius: 0.0
+    suction_cup_height: 0.020
+    suction_cup_radius: 0.012

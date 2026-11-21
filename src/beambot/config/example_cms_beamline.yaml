@@ -1,0 +1,220 @@
+# Generic beamline configuration
+# Selected at runtime via the BEAMBOT_BEAMLINE_CONFIG environment variable.
+# Use this file as a template for new beamlines: copy and rename, then point
+# BEAMBOT_BEAMLINE_CONFIG at the new file.
+
+beamline: "cms"
+poses_file: "src/cms/poses.yaml"                          # Relative to workspace root
+scene_file: "src/beambot/config/example_scene.yaml"      # Static planning-scene obstacles
+
+robot:
+  ip: "<ROBOT_IP>"          # Replace with the robot controller IP
+  arm_group: "ur_arm"
+  ik_frame: "flange"           # Matches SRDF chain (common.srdf.xacro: base_link → flange)
+  velocity_scaling: 0.2        # 20% of joint limits — per-beamline safety profile
+  acceleration_scaling: 0.2
+  moveit_config_package: "cms_moveit_config"    # Package with joint_limits.yaml per gripper
+  description_package: "cms_robot_description"  # URDF package for GUI 3D viewer
+  arm_joints:                  # Order matters — pose YAML values are positional
+    - shoulder_pan_joint
+    - shoulder_lift_joint
+    - elbow_joint
+    - wrist_1_joint
+    - wrist_2_joint
+    - wrist_3_joint
+
+grippers:
+  # tip_frame:  TF frame at the gripper's working tip — used as the IK target
+  #             so motions place the tip (not the flange) at the goal pose.
+  # z_offset:   Default vision-approach offset along base_link Z, in meters.
+  # urdf_file:  URDF used by the GUI 3D viewer for this gripper configuration.
+  none:
+    moveit_package: "cms_moveit_config"
+    gripper_arg: "none"            # Passed as gripper:= to launch file
+    tool_voltage: 0
+    gripper_group: ""              # No gripper group
+    states: {}                     # No states
+    tip_frame: "flange"            # No gripper attached; IK targets the flange
+    z_offset: 0.0
+    urdf_file: "ur_standalone.urdf"
+    payload_mass: 1.430
+    payload_cog: {x: -0.038, y: -0.022, z: -0.055}
+    # Parameters for robot_bringup.launch.py.
+    launch_urdf: "ur_standalone.xacro"           # robot_description xacro (≠ urdf_file, GUI .urdf)
+    moveit_controllers_file: "none/moveit_controllers.yaml"
+    use_tool_communication: true
+    tool_comm_params: {}
+
+  hande:
+    moveit_package: "cms_moveit_config"
+    gripper_arg: "hande"
+    tool_voltage: 24
+    gripper_group: "hande_gripper"
+    states:
+      grasp: "hande_closed"
+      release: "hande_open"
+    tip_frame: "robotiq_hande_end"
+    z_offset: -0.02
+    urdf_file: "ur_with_zivid_hande.urdf"
+    payload_mass: 2.520
+    payload_cog: {x: 0.018, y: -0.013, z: -0.031}
+    launch_urdf: "ur_with_zivid_hande.xacro"
+    moveit_controllers_file: "hande/moveit_controllers.yaml"
+    use_tool_communication: false    # hande driver manages socat via create_socat_tty
+    tool_comm_params: {}
+
+  epick:
+    moveit_package: "cms_moveit_config"
+    gripper_arg: "epick"
+    tool_voltage: 24
+    gripper_group: "epick_gripper"
+    cup_profile: "3mm_dia_external_air"
+    # Compensates the ~7 mm over-counted W-010-B coupling in epick_tip.
+    # Keep until te_coupling in ur_with_zivid_epick.xacro is corrected.
+    z_offset: -0.007
+    states:
+      grasp: "vacuum_on"
+      release: "vacuum_off"
+    tip_frame: "epick_tip"
+    urdf_file: "ur_with_zivid_epick.urdf"
+    payload_mass: 2.150
+    payload_cog: {x: 0.018, y: -0.015, z: -0.036}
+    launch_urdf: "ur_with_zivid_epick.xacro"
+    moveit_controllers_file: "epick/moveit_controllers.yaml"
+    use_tool_communication: true
+    tool_comm_params:
+      tool_baud_rate: 115200
+      tool_parity: 0
+      tool_stop_bits: 1
+      tool_rx_idle_chars: 1.5
+      tool_tx_idle_chars: 3.5
+
+  2fg7:
+    moveit_package: "cms_moveit_config"
+    gripper_arg: "2fg7"
+    tool_voltage: 24
+    gripper_group: "2fg7_gripper"
+    states:
+      grasp: "2fg7_closed"
+      release: "2fg7_open"
+    tip_frame: "2fg7_tip"
+    z_offset: 0.0
+    urdf_file: "ur_with_zivid_2fg7.urdf"
+    payload_mass: 2.210
+    payload_cog: {x: 0.018, y: -0.013, z: -0.031}
+    launch_urdf: "ur_with_zivid_2fg7.xacro"
+    moveit_controllers_file: "2fg7/moveit_controllers.yaml"
+    use_tool_communication: true
+    tool_comm_params:
+      tool_baud_rate: 1000000
+      tool_parity: 2                 # Even parity (0=none, 1=odd, 2=even)
+      tool_stop_bits: 1
+      tool_rx_idle_chars: 1.5
+      tool_tx_idle_chars: 3.5
+
+  pipettor:
+    moveit_package: "cms_moveit_config"
+    gripper_arg: "pipettor"
+    tool_voltage: 24
+    gripper_group: ""              # Pipettor has no gripper group
+    states: {}                     # No states
+    tip_frame: "pipette_tip_link"
+    z_offset: 0.0
+    urdf_file: "ur_with_zivid_pipettor.urdf"
+    payload_mass: 1.630
+    payload_cog: {x: 0.010, y: -0.010, z: -0.020}
+    launch_urdf: "ur_with_zivid_pipettor.xacro"
+    moveit_controllers_file: "pipettor/moveit_controllers.yaml"
+    use_tool_communication: true
+    tool_comm_params: {}
+
+# Camera used by vision tasks.
+camera:
+  type: "zivid"
+  frame: "zivid_optical_frame"
+  marker_dictionary: "aruco4x4_50"
+
+# Generic vision target configurations
+# Each target defines: marker detection → offset/grid positioning → approach/retreat
+# Two modes:
+#   offset: detect marker → move directly to marker-frame offset position (single move)
+#   grid:   detect marker → move to marker → relative moves for grid element + approach/retreat
+vision_targets:
+  tip_rack:
+    mode: grid
+    marker_id: 10
+    scan_pose: "pipettor_scan"
+    start_gripper: "pipettor"
+    # Offset from marker center to first element (A1) in marker local frame (meters)
+    marker_offset: {x: 0.0, y: -0.062}
+    grid:
+      rows: 8                    # A-H
+      cols: 12                   # 1-12
+      pitch: 0.0091              # 9.1 mm between wells
+      row_direction: "up"        # flange direction toward A1 row (marker -Y)
+      col_direction: "left"      # flange direction toward A1 col (marker -X)
+    # Sequential moves after vision alignment (flange frame)
+    # "column_offset" and "row_offset" are replaced by the builder with computed values
+    moves:
+      - {direction: "forward", distance: 0.050}    # approach toward rack surface
+      - column_offset                               # computed col offset
+      - row_offset                                   # computed row offset
+      - {direction: "forward", distance: 0.031}    # press to seat tip (+8mm for EX-50-35 wrist spacer, verified 2026-06)
+      - {direction: "backward", distance: 0.158}   # retreat clear of rack (+8mm to match)
+
+  vial_rack:
+    mode: grid
+    marker_id: 25
+    scan_pose: "pipettor_scan"   # TEMP: reusing pipettor_scan; vial_scan pose needs re-tuning for EX-50-35 wrist spacer
+    start_gripper: "pipettor"
+    grid:
+      rows: 2                    # A-B
+      cols: 5                    # 1-5
+      col_pitch: 0.022           # 22mm between columns (A1→A2)
+      row_pitch: 0.044           # 44mm between rows (A→B)
+      col_offset: 0.003          # A1 offset from tag: 3mm right
+      row_offset: 0.082          # A1 offset from tag: 82 mm up
+      col_direction: "right"     # flange direction toward A1 col
+      col_increasing: "right"   # columns increase going right (same as A1)
+      row_direction: "up"        # flange direction toward A1 row
+      row_increasing: "down"    # rows increase going down (opposite of A1)
+    moves:
+      - {direction: "backward", distance: 0.020}   # clearance before lateral moves
+      - column_offset                               # computed col offset
+      - row_offset                                   # computed row offset
+      - {direction: "forward", distance: 0.063}    # insert into vial (+8mm for EX-50-35 wrist spacer, verified 2026-06)
+      - {direction: "backward", distance: 0.073}   # retreat from vial (+8mm to match)
+
+  sample:
+    mode: offset
+    marker_id: 0                 # Override with tag_id parameter per sample
+    scan_pose: "sample_scan_1"
+    start_gripper: "epick"
+    marker_offset: {x: 0.020, y: 0.0, z: 0.0}   # 20mm in marker +X (right of tag)
+    z_offset: 0.0
+
+# Tool exchange geometry — physical layout of the magnetic dock plate.
+# Lateral docks are on a uniform spacing along the Y axis of the IK frame;
+# `reference_dock` is the dock_number whose Y offset is zero (i.e., the dock
+# the approach pose lines up with). load/dock sequences are executed in
+# order after the lateral shift puts the gripper in front of the target dock.
+tool_exchange:
+  dock_spacing_m: 0.1524           # 6 inches between dock centers (magnetic plate)
+  reference_dock: 3                # dock 3 is centered on the approach pose
+  load_sequence:
+    - {direction: "forward",  distance: 0.20}    # attach to magnet
+    - {direction: "up",       distance: 0.15}    # lift off the holder
+    - {direction: "backward", distance: 0.20}    # retreat clear of plate
+  dock_sequence:
+    - {direction: "forward",  distance: 0.20}    # align with holder slot
+    - {direction: "down",     distance: 0.15}    # set tool into holder
+    - {direction: "backward", distance: 0.20}    # retreat clear of plate
+
+# Marker-linked collision objects added to the planning scene.
+# Disabled pending confirmation of the sample_bar marker ID and dictionary.
+# collision_objects:
+#   200:
+#     name: "sample_bar"
+#     shape: "box"
+#     dimensions: [0.026, 0.013, 0.11]   # 2.6cm wide × 1.3cm deep × 11cm tall
+#     tag_offset: [0.0, 0.0, 0.0]
